@@ -1,6 +1,6 @@
-<img src="title.png" alt="title slide" width="555">
+[please click here to see slides](presentation.pdf)
 
-[The slides available here](presentation.pdf)
+<img src="title.png" alt="title slide" width="555">
 
 Code samples tested on Mac and Linux so far, should be windows compatible
 

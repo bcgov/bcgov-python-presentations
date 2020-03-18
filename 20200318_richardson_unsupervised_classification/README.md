@@ -1,5 +1,6 @@
 <img src="title.png" alt="title slide" width="555">
 
+### Notes
 * Code samples tested on Mac and Linux so far, should be windows compatible
 * [please click here to see slides](presentation.pdf)
 

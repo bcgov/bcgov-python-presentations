@@ -1,5 +1,5 @@
-March 18, 2020 *"Can the Data Speak? Reflections on Unsupervised Classification
-  In Python with Accessible Examples"*
+March 18, 2020 **"Can the Data Speak? Reflections on Unsupervised Classification
+  In Python with Accessible Examples"**
 
 Tested on Mac/Linux so far, should be mostly windows compatible
 

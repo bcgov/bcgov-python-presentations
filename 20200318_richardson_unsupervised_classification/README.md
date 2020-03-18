@@ -1,7 +1,9 @@
 March 18, 2020 **"Can the Data Speak? Reflections on Unsupervised Classification
   In Python with Accessible Examples"**
 
-Tested on Mac/Linux so far, should be mostly windows compatible
+![title slide](title.png)
+
+Code samples tested on Mac and Linux so far, should be windows compatible
 
 ## Running the codes at a terminal:
 ```

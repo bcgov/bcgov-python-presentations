@@ -7,7 +7,7 @@ Tested on Mac/Linux so far, should be mostly windows compatible
 rm *.p  # remove any stray "pickle" files (distance matrix gets cached)
 
 ### First example
-<addr>
+'''
 python3 kgc.py example_00_simple.csv
 python3 view.py  example_00_simple.csv_output.csv
-</addr>
+'''

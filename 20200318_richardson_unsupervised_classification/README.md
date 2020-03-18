@@ -1,7 +1,4 @@
-March 18, 2020 **"Can the Data Speak? Reflections on Unsupervised Classification
-  In Python with Accessible Examples"**
-
-![title slide](title.png | width=111)
+<img src="title.png" alt="title slide" width="555">
 
 Code samples tested on Mac and Linux so far, should be windows compatible
 

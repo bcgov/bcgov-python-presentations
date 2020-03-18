@@ -1,6 +1,3 @@
-Can the Data Speak?
-
-Reflections on Unsupervised Classification
-
-In Python with Accessible Examples
+Can the Data Speak? Reflections on Unsupervised Classification
+  In Python with Accessible Examples
 

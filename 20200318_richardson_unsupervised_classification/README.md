@@ -36,5 +36,7 @@ python3 view.py example_03_bear.csv_output.csv
 ```
 
 ## References
-[1] [Unsupervised Nonparametric Classification of Polarimetric SAR Data Using The K-nearest Neighbor Graph, A. Richardson, D. G. Goodenough, H. Chen, G. Hobart, B. Moa, W. Myrvold, proc. IEEE IGARSS, Honolulu, Hawaii, July 2010](https://ieeexplore.ieee.org/document/5651992)
+[1] [Unsupervised Nonparametric Classification of Polarimetric SAR Data Using The K-nearest Neighbor Graph, A. Richardson et al, proc. IEEE IGARSS, Honolulu, Hawaii, July 2010](https://ieeexplore.ieee.org/document/5651992)
+
+[2] [Hierarchical Unsupervised Nonparametric Classification of Polarimetric SAR Time Series Data, A. Richardson et al, proc. IEEE IGARSS, Québec City, Canada, July 2014](https://ieeexplore.ieee.org/document/6947550)
 

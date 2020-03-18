@@ -3,6 +3,13 @@ March 18, 2020 **"Can the Data Speak? Reflections on Unsupervised Classification
 
 Tested on Mac/Linux so far, should be mostly windows compatible
 
+## Running the codes at a terminal:
+```
+python3 kgc.py [input csv file] [number of K-nearest neighbours (defaults to math.ceil(math.sqrt(N)) where N is the number of data points]
+
+python3 view.py [output csv file from kgc.py]
+```
+
 ## Instructions to run the examples:
 rm *.p  # remove any stray "pickle" files (distance matrix gets cached)
 
@@ -24,6 +31,10 @@ python3 view.py example_02_iris.csv_output.csv
 
 ### 3
 ```
-python3 kgc.py example_03_bear.csv
+python3 kgc.py example_03_bear.csv 1000
 python3 view.py example_03_bear.csv_output.csv
 ```
+
+## References
+[1] [Unsupervised Nonparametric Classification of Polarimetric SAR Data Using The K-nearest Neighbor Graph, A. Richardson, D. G. Goodenough, H. Chen, G. Hobart, B. Moa, W. Myrvold, proc. IEEE IGARSS, Honolulu, Hawaii, July 2010](https://ieeexplore.ieee.org/document/5651992)
+

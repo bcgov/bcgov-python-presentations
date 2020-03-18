@@ -6,7 +6,8 @@
 
 ## Running the codes at a terminal:
 ```
-python3 kgc.py [input csv file] [number of K-nearest neighbours (defaults to math.ceil(math.sqrt(N)) where N is the number of data points]
+python3 kgc.py [input csv file] [number of K-nearest neighbours (defaults to math.ceil(math.sqrt(N))]
+# where N is the number of data points]
 
 python3 view.py [output csv file from kgc.py]
 ```

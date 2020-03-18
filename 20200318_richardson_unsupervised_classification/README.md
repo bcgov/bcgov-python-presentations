@@ -1,8 +1,7 @@
-[please click here to see slides](presentation.pdf)
-
 <img src="title.png" alt="title slide" width="555">
 
-Code samples tested on Mac and Linux so far, should be windows compatible
+* Code samples tested on Mac and Linux so far, should be windows compatible
+* [please click here to see slides](presentation.pdf)
 
 ## Running the codes at a terminal:
 ```

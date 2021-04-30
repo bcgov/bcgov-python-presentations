@@ -37,4 +37,4 @@ Conduct](CODE_OF_CONDUCT.md). Participants must follow the terms
     See the License for the specific language governing permissions and
     limitations under the License.
 
-This repository is maintained by the BC Wildfire Service (BCWS) Predictive Services Unit (PSU)
+This repository is maintained by the BC Wildfire Service (BCWS) Predictive Services Unit (PSU) and partners

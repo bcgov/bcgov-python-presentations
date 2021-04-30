@@ -8,7 +8,7 @@ Content from "lunch and learn" style presentations developed by the BC Governmen
 * March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20200318_richardson_unsupervised_classification)
 
 ## Project Status
-Underway and always open to improvements!
+Underway and always open to improvements and contributions!
 
 ## Getting Help or Reporting an Issue
 

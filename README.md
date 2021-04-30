@@ -1,9 +1,9 @@
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
 
-* April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/Jupyter%20Notebooks%20-%202021-04-28)
-* April 7, 2021 [Piloting Headless Browsers with Python](20210407_taylor_headless_browsers)
-* March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/20200318_richardson_unsupervised_classification)
+* April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/Jupyter%20Notebooks%20-%202021-04-28)
+* April 7, 2021 [Piloting Headless Browsers with Python](presentations/20210407_taylor_headless_browsers)
+* March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20200318_richardson_unsupervised_classification)
 
 ## Project Status
 Underway and always open to improvements!

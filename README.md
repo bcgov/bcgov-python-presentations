@@ -1,5 +1,5 @@
 # bcgov-python-presentations
-Content of presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
+Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
 
 * April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/Jupyter%20Notebooks%20-%202021-04-28)
 * April 7, 2021 [Piloting Headless Browsers with Python](20210407_taylor_headless_browsers)

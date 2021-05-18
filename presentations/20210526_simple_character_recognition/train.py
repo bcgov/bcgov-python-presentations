@@ -50,7 +50,10 @@ npx = nrow * ncol # number of pixels in image
 red value: dat[0 * npx + i * ncol + j]
 grn value: dat[1 * npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
+
 dat = read_float("test.bin")
+
+import matplotlib.pyplot as plt
 
 def plot(dat, rows, cols, bands):
     dat = dat.reshape((bands, rows * cols))
@@ -59,7 +62,7 @@ def plot(dat, rows, cols, bands):
     for i in range(bands):
          rgb[:, :, i] = dat[i, :].reshape((rows, cols))
     
-    import matplotlib.pyplot as plt
+
 
     plt.imshow(rgb)
     plt.show()
@@ -67,3 +70,21 @@ def plot(dat, rows, cols, bands):
 plot(dat, rows, cols, bands) # Figure 1
 
 # basic color stats
+npx = rows * cols
+rgb = [[dat[i], dat[npx + i], dat[2*npx + i]] for i in range(0, npx)]
+
+c = {} # count rgb values
+for x in rgb:
+    x = str(x)
+    c[x] = c[x] + 1 if x in c else 1
+print(c)
+
+'''
+{'[255.0, 255.0, 255.0]': 3732995, # white
+ '[0.0, 0.0, 255.0]': 6951,        # blue
+ '[0.0, 0.0, 0.0]': 54}            # black
+'''
+
+plt.figure()
+plt.bar(c.keys(), c.values()
+plt.show()

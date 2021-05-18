@@ -64,4 +64,6 @@ def plot(dat, rows, cols, bands):
     plt.imshow(rgb)
     plt.show()
 
-plot(dat, rows, cols, bands)
+plot(dat, rows, cols, bands) # Figure 1
+
+# basic color stats

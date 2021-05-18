@@ -58,12 +58,8 @@ import matplotlib.pyplot as plt
 def plot(dat, rows, cols, bands, file_name):
     dat = dat.reshape((bands, rows * cols))
     rgb = np.zeros((rows, cols, bands))
-
     for i in range(bands):
-         rgb[:, :, i] = dat[i, :].reshape((rows, cols))
-    
-
-
+        rgb[:, :, i] = dat[i, :].reshape((rows, cols))
     plt.imshow(rgb)
     plt.savefig(file_name)
 
@@ -87,7 +83,7 @@ print(c)
 '''
 
 plt.figure()
-plt.bar(c.keys(), np.log(np.array(list(c.values()))))
+plt.bar(c.keys(), np.log(list(c.values())))
 plt.title("Log of count of color values")
 plt.savefig('Figure_2.png')
 

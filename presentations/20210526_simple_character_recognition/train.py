@@ -20,8 +20,8 @@ run('convert -background white -density 200 train.pdf train.bmp') # convert to p
 run('gdal_translate -of ENVI -ot Float32 train.bmp train.bin') # convert to raw binary
 
 # add band names
-d = open("test.hdr").read() + 'band names = {red,\ngreen,\nblue}'
-open('test.hdr','wb').write(d.encode())
+d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
+open('train.hdr','wb').write(d.encode())
 
 
 def read_hdr(hdr): # read the image dimensions

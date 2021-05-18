@@ -51,11 +51,11 @@ red value: dat[0 * npx + i * ncol + j]
 grn value: dat[1 * npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
-dat = read_float("test.bin")
+dat = read_float("test.bin") / 255.
 
 import matplotlib.pyplot as plt
 
-def plot(dat, rows, cols, bands):
+def plot(dat, rows, cols, bands, file_name):
     dat = dat.reshape((bands, rows * cols))
     rgb = np.zeros((rows, cols, bands))
 
@@ -65,9 +65,9 @@ def plot(dat, rows, cols, bands):
 
 
     plt.imshow(rgb)
-    plt.show()
+    plt.savefig(file_name)
 
-plot(dat, rows, cols, bands) # Figure 1
+plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
 
 # basic color stats
 npx = rows * cols
@@ -80,11 +80,15 @@ for x in rgb:
 print(c)
 
 '''
-{'[255.0, 255.0, 255.0]': 3732995, # white
- '[0.0, 0.0, 255.0]': 6951,        # blue
- '[0.0, 0.0, 0.0]': 54}            # black
+{'[255.0, 255.0, 255.0]': 3732995,
+ '[0.0, 0.0, 255.0]': 6951,
+ '[0.0, 0.0, 0.0]': 54} 
+
 '''
 
 plt.figure()
-plt.bar(c.keys(), c.values()
-plt.show()
+plt.bar(c.keys(), np.log(np.array(list(c.values()))))
+plt.title("Log of count of color values")
+plt.savefig('Figure_2.png')
+
+

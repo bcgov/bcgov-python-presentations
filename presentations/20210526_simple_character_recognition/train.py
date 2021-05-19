@@ -65,7 +65,7 @@ red value: dat[          i * ncol + j]
 grn value: dat[    npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
-dat = read_float("test.bin") / 255.
+dat = read_float('train.bin') / 255.
 
 import matplotlib.pyplot as plt
 

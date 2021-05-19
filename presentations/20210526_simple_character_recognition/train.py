@@ -20,9 +20,10 @@ open('train.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                          chars(97, 123),       # a-z
                                          '\\end{document}'])).encode())
 
-run('pdflatex train.tex') # render with LaTeX
-run('convert -background white -density 200 train.pdf train.bmp') # convert to bitmap
-run('gdal_translate -of ENVI -ot Float32 train.bmp train.bin') # convert to raw binary
+if not os.path.exists('train.bin'): # delete train.bin to start from new data
+    run('pdflatex train.tex') # render with LaTeX
+    run('convert -background white -density 200 train.pdf train.bmp') # convert to bitmap
+    run('gdal_translate -of ENVI -ot Float32 train.bmp train.bin') # convert to raw binary
 
 # add band names
 d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
@@ -92,7 +93,7 @@ plt.bar(c.keys(), np.log(list(c.values())))
 plt.title("Log of count of color values")
 plt.savefig('Figure_2.png')
 
-labels = np.zeros((rows, cols))  # starting label: 0 "unlabeled"
+labels = np.zeros(npx) # starting label: 0 == unlabelled!
 next_label = 1
 
 def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
@@ -120,7 +121,7 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
 
 for i in range(rows):
     for j in range(cols):
-        find(i, j)
+        flood(i, j)
 
 print(labels)
 print(next_label)

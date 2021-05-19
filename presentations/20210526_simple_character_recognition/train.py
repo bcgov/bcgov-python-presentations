@@ -155,17 +155,24 @@ for i in range(rows):
 c = {}
 for point in points:
     n = len(point)
-    c[n] = c[n] + 1 if n in c else 1
+    c[n] = (c[n] + 1) if (n in c) else 1
 
-print(c)
+counts = [[k, c[k]] for k in c] # sort the counts
+counts.sort()
+
+print(counts)
 
 # do another bar chart here!!!
 if not os.path.exists('Figure_3.png'):
     print("+w Figure_3.png")
-    plt.figure()
-    fig = plt.barh(range(len(c.keys())), list(c.values()))
+    plt.figure(figsize=(8,8))
+    fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
     plt.title("Count of pixels per segment")
+
+    plt.tight_layout()
+    plt.xlim(left = 0)
     plt.savefig('Figure_3.png')
+
 
 
 print(len(points))

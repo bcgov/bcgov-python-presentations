@@ -227,7 +227,7 @@ for point in points:
 print(truth)
 
 
-render("h3ll0 w0rlD", "test")
+render(["h3ll0 w0rlD"], "test")
 
 
 # don't forget py tesseract..

@@ -2,6 +2,7 @@ import os
 import sys
 
 def run(c): # run something at terminal and wait to finish
+    print(c)
     a = os.system(c)
 
 truth = [] # these are the characters we'd like to classify

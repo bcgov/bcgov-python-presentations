@@ -166,9 +166,9 @@ if not os.path.exists('Figure_3.png'):
     print("+w Figure_3.png")
     plt.figure(figsize=(8,8))
     fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
-    plt.title("Count of pixel-counts per segment")
-    plt.xlabel("counts of segments with the same pixel count")
-    plt.ylabel("segment pixel count")
+    plt.title("Pixel-count vs. number of segments with that count")
+    plt.xlabel("Number of segments with a given pixel count")
+    plt.ylabel("Pixel-count for a segment")
     plt.tight_layout()
     plt.savefig('Figure_3.png')
 

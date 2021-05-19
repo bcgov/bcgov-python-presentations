@@ -151,7 +151,21 @@ for i in range(rows):
 # for point in points:
 #     print(len(point))
 
+c = {}
+for point in points:
+    n = len(point)
+    c[n] = c[n] + 1 if n in c else 1
+
+print(c)
+
 # do another bar chart here!!!
+if not os.path.exists('Figure_3.png'):
+    print("+w Figure_3.png")
+    plt.figure()
+    plt.bar(list(c.keys()), list(c.values()))
+    plt.title("Count of pixels per segment")
+    plt.savefig('Figure_3.png')
+
 
 print(len(points))
 

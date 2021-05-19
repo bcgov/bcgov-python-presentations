@@ -97,28 +97,22 @@ labels = np.zeros(npx) # starting label: 0 == unlabelled!
 next_label = 1
 
 def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
+    global labels, next_label, rgb 
+
     ix = i * cols + j # linear index of (i, j) 
-    if labels[ix] > 0: return  # stop: already labelled
+    if labels[ix] > 0: return # stop: already labelled
     if i > rows or j > cols or i < 0 or j < 0: return  # stop: out of bounds
     if my_color and my_color != str(rgb[ix]): return # stop: different colour than at invocation chain start
 
     # label this point
     labels[ix] = my_label if my_label else next_label
-    next_label = next_label if my_label else next_label + 1
+    if my_label: next_label += 1
 
     for di in [-1, 1]:
         for dj in [-1, 1]:
-            find(i + di, j + dj, labels[ix], str(rgb[i, j]))
-    
+            flood(i + di, j + dj, labels[ix], str(rgb[ix]))
 
-    if labels[i, j] > 0: # "base case"!
-        return labels[i, j] # already labelled
-
-    for di in [-1, 1]: # +-shaped nbhd!
-        for dj in [-1, 1]:
-            find(i + di, j + dj, labels[ix], str(rgb[ix]))
-
-
+# start the segmentation
 for i in range(rows):
     for j in range(cols):
         flood(i, j)
@@ -127,5 +121,6 @@ print(labels)
 print(next_label)
 
 
+# collect the points for each label
 
 # don't forget py tesseract..

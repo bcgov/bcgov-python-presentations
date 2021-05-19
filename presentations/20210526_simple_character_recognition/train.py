@@ -12,6 +12,7 @@ def chars(i, j):
     truth += my_chars
     return ' '.join(my_chars)
 
+# use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
 open('train.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                          '\\usepackage{xcolor}',
                                          '\\begin{document}',

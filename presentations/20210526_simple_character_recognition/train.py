@@ -202,8 +202,9 @@ ci = 0
 for point in points:
     if ci > 0: # skip the background / 0th label again
         plt.figure()
-        fn = 'truth' + os.path.sep + str(ci) + '.png'
+        fn = 'truth' + os.path.sep + truth[ci] + '.png'
         plt.scatter([x[1] for x in point], [-x[0] for x in point])
+        plt.title(truth[ci])
         print('+w ' + fn)
         plt.savefig(fn)
         plt.close()

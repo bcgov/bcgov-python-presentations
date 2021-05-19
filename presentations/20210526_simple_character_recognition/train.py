@@ -3,8 +3,11 @@ import os
 def run(c): # run something at terminal and wait to finish
     a = os.system(c)
 
+truth = []
 def chars(i, j):
-    return ' '.join([chr(x) for x in range(i, j)])
+    my_chars = [chr(x) for x in range(i, j)]
+    truth += my_chars
+    return ' '.join(my_chars)
 
 open('train.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                          '\\usepackage{xcolor}',
@@ -12,11 +15,11 @@ open('train.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                          '\\color{blue}',
                                          chars(48, 58) + '\n', # 0-9
                                          chars(65, 91) + '\n', # A-Z
-                                         chars(97, 123), # a-z
+                                         chars(97, 123),       # a-z
                                          '\\end{document}'])).encode())
 
 run('pdflatex train.tex') # render with LaTeX
-run('convert -background white -density 200 train.pdf train.bmp') # convert to png
+run('convert -background white -density 200 train.pdf train.bmp') # convert to bitmap
 run('gdal_translate -of ENVI -ot Float32 train.bmp train.bin') # convert to raw binary
 
 # add band names
@@ -47,15 +50,15 @@ cols, rows, bands = read_hdr("test.hdr")
 
 '''pixel @ (row, col) = (i, j):
 npx = nrow * ncol # number of pixels in image
-red value: dat[0 * npx + i * ncol + j]
-grn value: dat[1 * npx + i * ncol + j]
+red value: dat[          i * ncol + j]
+grn value: dat[    npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
 dat = read_float("test.bin") / 255.
 
 import matplotlib.pyplot as plt
 
-def plot(dat, rows, cols, bands, file_name):
+def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     dat = dat.reshape((bands, rows * cols))
     rgb = np.zeros((rows, cols, bands))
     for i in range(bands):
@@ -67,7 +70,7 @@ plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
 
 # basic color stats
 npx = rows * cols
-rgb = [[dat[i], dat[npx + i], dat[2*npx + i]] for i in range(0, npx)]
+rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]
 
 c = {} # count rgb values
 for x in rgb:
@@ -87,4 +90,33 @@ plt.bar(c.keys(), np.log(list(c.values())))
 plt.title("Log of count of color values")
 plt.savefig('Figure_2.png')
 
+labels = np.zeros(rows, cols)  # starting label: 0 "unlabeled"
+next_label = 1
 
+def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
+    ix = i * cols + j # linear index of (i, j) 
+    if labels[ix] > 0: return  # stop: already labelled
+    if i > rows or j > cols or i < 0 or j < 0: return  # stop: out of bounds
+    if my_color and my_color != str(rgb[ix]): return # stop: different colour
+
+    # label this point
+    labels[ix] = my_label if my_label else next_label
+    next_label = next_label if my_label else next_label + 1
+
+    for di in [-1, 1]:
+        for dj in [-1, 1]:
+            find(i + di, j + dj, labels[ix], str(rgb[i, j]))
+    
+
+    if labels[i, j] > 0: # "base case"!
+        return labels[i, j] # already labelled
+
+    for di in [-1, 1]: # +-shaped nbhd!
+        for dj in [-1, 1]:
+            pass
+            
+        
+    
+
+
+# don't forget py tesseract..

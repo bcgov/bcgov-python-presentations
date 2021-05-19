@@ -4,7 +4,7 @@ import sys
 def run(c): # run something at terminal and wait to finish
     a = os.system(c)
 
-truth = []
+truth = [] # these are the characters we'd like to classify
 
 def chars(i, j):
     global truth
@@ -70,6 +70,7 @@ def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
         rgb[:, :, i] = dat[i, :].reshape((rows, cols))
     plt.imshow(rgb)
     plt.savefig(file_name)
+    plt.close()
 
 if not os.path.exists('Figure_1.png'):
     plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
@@ -82,7 +83,7 @@ c = {} # count rgb values
 for x in rgb:
     x = str(x)
     c[x] = c[x] + 1 if x in c else 1
-print(c)
+# print(c)
 
 '''
 {'[255.0, 255.0, 255.0]': 3732995,
@@ -96,6 +97,7 @@ if not os.path.exists('Figure_2.png'):
     plt.bar(c.keys(), np.log(list(c.values())))
     plt.title("Log of count of color values")
     plt.savefig('Figure_2.png')
+    plt.close()
 
 # assume dominant color is background
 max_count = 0
@@ -130,9 +132,24 @@ if sys.getrecursionlimit() < npx:  # increase recursion limit
     sys.setrecursionlimit(npx)
 
 # start the segmentation
+i = 450
+for j in range(cols):
+    flood(i, j)
+
+i = 500
+for j in range(cols):
+    flood(i, j)
+
+i = 560
+for j in range(cols):
+    flood(i, j)
+
+'''
 for i in range(rows):
     for j in range(cols):
         flood(i, j)
+'''
+
 
 # print(labels)
 # print(next_label)
@@ -141,7 +158,7 @@ points = [[] for i in range(next_label)]
 
 # gather the points for each label
 for i in range(rows):
-    print(i, rows)
+    # print(i, rows)
     for j in range(cols):
         ix = i * cols + j # linear index
         if labels[ix] > 0: # skip background
@@ -171,6 +188,7 @@ if not os.path.exists('Figure_3.png'):
     plt.ylabel("Pixel-count for a segment (total pixel counts = " + str(len(counts)) + ")")
     plt.tight_layout()
     plt.savefig('Figure_3.png')
+    plt.close()
 
 # now actually show some of the segments..
 
@@ -181,9 +199,10 @@ for point in points:
     if ci > 0: # skip the background / 0th label again
         plt.figure()
         fn = 'truth' + os.path.sep + str(ci) + '.png'
-        plt.scatter([x[0] for x in point], [x[1] for x in point])
+        plt.scatter([x[1] for x in point], [-x[0] for x in point])
         print('+w ' + fn)
         plt.savefig(fn)
+        plt.close()
     ci += 1
 
 # don't forget py tesseract..

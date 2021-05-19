@@ -115,7 +115,7 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
 
     for di in [-1, 1]: # +-shaped nbhd!
         for dj in [-1, 1]:
-            find(i + di, j + dj, labels[idx], 
+            find(i + di, j + dj, labels[ix], str(rgb[ix]))
 
 
 for i in range(rows):

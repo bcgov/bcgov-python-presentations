@@ -143,9 +143,10 @@ points = [[] for i in range(next_label)]
 for i in range(rows):
     print(i, rows)
     for j in range(cols):
-        ix = i * cols + j # my linear index
-        label = labels[ix] # label this point
-        points[label] += [[i, j]]
+        if labels[ix] > 0: # skip background
+            ix = i * cols + j # my linear index
+            label = labels[ix] # label this point
+            points[label] += [[i, j]]
 
 
 # for point in points:

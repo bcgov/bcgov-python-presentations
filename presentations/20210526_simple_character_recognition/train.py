@@ -174,5 +174,13 @@ if not os.path.exists('Figure_3.png'):
 
 # now actually show some of the segments..
 
+run("mkdir -p truth")
+
+ci = 0
+for point in points:
+    plt.figure()
+    plt.scatter([x[0] for x in point], [x[1] for x in point])
+    plt.savefig('truth' + os.path.sep + str(ci) + '.png')
+    ci += 1
 
 # don't forget py tesseract..

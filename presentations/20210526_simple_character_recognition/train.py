@@ -16,23 +16,25 @@ my_text = [chars(48, 58) + '\n', # 0-9
            chars(65, 91) + '\n', # A-Z
            chars(97, 123)]       # a-z
 
-# use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
-open('train.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
-                                         '\\usepackage{xcolor}',
-                                         '\\begin{document}',
-                                         '\\color{blue}'] +
-                                         my_text + 
-                                         ['\\end{document}'])).encode())
+def render(my_text, name='train'):
+    # use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
+    open(name + '.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
+                                                '\\usepackage{xcolor}',
+                                                '\\begin{document}',
+                                                '\\color{blue}'] +
+                                                my_text + 
+                                                ['\\end{document}'])).encode())
 
-if not os.path.exists('train.bin'): # delete train.bin to start from new data
-    run('pdflatex train.tex') # render with LaTeX
-    run('convert -background white -density 200 train.pdf train.bmp') # convert to bitmap
-    run('gdal_translate -of ENVI -ot Float32 train.bmp train.bin') # convert to raw binary
+    if not os.path.exists(name + '.bin'): # delete train.bin to start from new data
+        run('pdflatex ' + name + '.tex') # render with LaTeX
+        run('convert -background white -density 200 ' + name + '.pdf ' + name + '.bmp') # convert to bitmap
+        run('gdal_translate -of ENVI -ot Float32 ' + name + '.bmp ' + name + '.bin') # convert to raw binary
+
+render(my_text)
 
 # add band names
 d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
 open('train.hdr','wb').write(d.encode())
-
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
@@ -223,4 +225,9 @@ for point in points:
     ci += 1
 
 print(truth)
+
+
+render("h3ll0 w0rlD", "test")
+
+
 # don't forget py tesseract..

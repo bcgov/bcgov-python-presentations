@@ -1,4 +1,5 @@
 import os
+import sys
 
 def run(c): # run something at terminal and wait to finish
     a = os.system(c)
@@ -69,7 +70,8 @@ def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     plt.imshow(rgb)
     plt.savefig(file_name)
 
-plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
+if not os.path.exists('Figure_1.png'):
+    plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
 
 # basic color stats
 npx = rows * cols
@@ -88,39 +90,68 @@ print(c)
 
 '''
 
-plt.figure()
-plt.bar(c.keys(), np.log(list(c.values())))
-plt.title("Log of count of color values")
-plt.savefig('Figure_2.png')
+if not os.path.exists('Figure_2.png'):
+    plt.figure()
+    plt.bar(c.keys(), np.log(list(c.values())))
+    plt.title("Log of count of color values")
+    plt.savefig('Figure_2.png')
 
-labels = np.zeros(npx) # starting label: 0 == unlabelled!
+# assume dominant color is background
+max_count = 0
+max_color = None
+for k in c:
+    if c[k] > max_count:
+        max_count, max_color = c[k], k
+
+labels = [0 for i in range(npx)] # starting label: 0 == unlabelled!
 next_label = 1
 
 def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
     global labels, next_label, rgb 
-
     ix = i * cols + j # linear index of (i, j) 
     if labels[ix] > 0: return # stop: already labelled
+    if str(rgb[ix]) == max_color: return # stop: ignore background
     if i > rows or j > cols or i < 0 or j < 0: return  # stop: out of bounds
     if my_color and my_color != str(rgb[ix]): return # stop: different colour than at invocation chain start
+ 
+    if my_label:
+        labels[ix] = my_label
+    else:
+        labels[ix] = next_label
+        next_label += 1
 
-    # label this point
-    labels[ix] = my_label if my_label else next_label
-    if my_label: next_label += 1
+    for di in [-1, 0, 1]:
+        for dj in [-1, 0, 1]:
+            if not (di == 0 and dj == 0):
+                flood(i + di, j + dj, labels[ix], str(rgb[ix]))
 
-    for di in [-1, 1]:
-        for dj in [-1, 1]:
-            flood(i + di, j + dj, labels[ix], str(rgb[ix]))
+if sys.getrecursionlimit() < npx:  # increase recursion limit
+    sys.setrecursionlimit(npx)
 
 # start the segmentation
 for i in range(rows):
     for j in range(cols):
         flood(i, j)
 
-print(labels)
-print(next_label)
+# print(labels)
+# print(next_label)
+
+points = [[] for i in range(next_label)]
+
+# gather the points for each label
+for i in range(rows):
+    print(i, rows)
+    for j in range(cols):
+        ix = i * cols + j # my linear index
+        label = labels[ix] # label this point
+        points[label] += [[i, j]]
 
 
-# collect the points for each label
+# for point in points:
+#     print(len(point))
+
+# do another bar chart here!!!
+
+print(len(points))
 
 # don't forget py tesseract..

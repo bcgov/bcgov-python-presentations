@@ -191,18 +191,28 @@ if not os.path.exists('Figure_3.png'):
     plt.savefig('Figure_3.png')
     plt.close()
 
-# now actually show some of the segments..
+# centroid adjustment
+def normalize(A):
+    X = [x[0] for x in A]
+    Y = [x[1] for x in A]
+    cX, cY = np.mean(X), np.mean(Y)
+    return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
+
+for i in range(len(points)): # centroid adjust
+    points[i] = normalize(points[i]) 
 
 run("mkdir -p truth")
-
 ci = 0
+truth_points = {} # index the point sets by the character type representation
 for point in points:
     if ci > 0:
         try:
             plt.figure()
-            fn = 'truth' + os.path.sep + truth[ci - 1] + '.png'
+            truth_label = truth[ci - 1]
+            fn = 'truth' + os.path.sep + truth_label + '.png'
             plt.scatter([x[1] for x in point], [-x[0] for x in point])
-            plt.title(truth[ci - 1])
+            truth_points[truth_label] = point
+            plt.title(truth_label)
             print('+w ' + fn)
             plt.savefig(fn)
             plt.close()

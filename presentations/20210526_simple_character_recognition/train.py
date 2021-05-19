@@ -131,6 +131,14 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
 if sys.getrecursionlimit() < npx:  # increase recursion limit
     sys.setrecursionlimit(npx)
 
+
+# this doesn't work because the characters are different heights, this gets them out of order
+'''
+for i in range(rows):
+    for j in range(cols):
+        flood(i, j)
+'''
+
 # start the segmentation
 i = 450
 for j in range(cols):
@@ -144,11 +152,7 @@ i = 560
 for j in range(cols):
     flood(i, j)
 
-'''
-for i in range(rows):
-    for j in range(cols):
-        flood(i, j)
-'''
+
 
 
 # print(labels)

@@ -33,9 +33,10 @@ def render(my_text, name='train'):
 
 render(my_text)
 
-# add band names
-d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
-open('train.hdr','wb').write(d.encode())
+if os.path.exists('train.hdr'):
+    # add band names
+    d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
+    open('train.hdr','wb').write(d.encode())
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
@@ -55,7 +56,7 @@ import numpy as np
 def read_float(fn): # read the raw binary file
     return np.fromfile(fn, dtype = np.float32)
 
-cols, rows, bands = read_hdr("test.hdr")
+cols, rows, bands = read_hdr('train.hdr')
 
 
 '''pixel @ (row, col) = (i, j):

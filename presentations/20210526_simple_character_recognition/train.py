@@ -163,7 +163,8 @@ print(c)
 if not os.path.exists('Figure_3.png'):
     print("+w Figure_3.png")
     plt.figure()
-    plt.bar(list(c.keys()), list(c.values()))
+    fig = plt.bar(range(len(c.keys())), list(c.values()))
+    fig.set_xticklabels([str(x) for x in c.keys()])
     plt.title("Count of pixels per segment")
     plt.savefig('Figure_3.png')
 

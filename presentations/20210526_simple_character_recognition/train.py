@@ -4,7 +4,9 @@ def run(c): # run something at terminal and wait to finish
     a = os.system(c)
 
 truth = []
+
 def chars(i, j):
+    global truth
     my_chars = [chr(x) for x in range(i, j)]
     truth += my_chars
     return ' '.join(my_chars)
@@ -90,7 +92,7 @@ plt.bar(c.keys(), np.log(list(c.values())))
 plt.title("Log of count of color values")
 plt.savefig('Figure_2.png')
 
-labels = np.zeros(rows, cols)  # starting label: 0 "unlabeled"
+labels = np.zeros((rows, cols))  # starting label: 0 "unlabeled"
 next_label = 1
 
 def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation

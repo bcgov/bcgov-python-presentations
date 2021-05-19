@@ -166,14 +166,13 @@ if not os.path.exists('Figure_3.png'):
     print("+w Figure_3.png")
     plt.figure(figsize=(8,8))
     fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
-    plt.title("Pixel-count vs. number of segments with that count")
+    plt.title("Pixel-count vs. number of segments w that count (total segments: " + str(len(points)) + ")")
     plt.xlabel("Number of segments with a given pixel count")
-    plt.ylabel("Pixel-count for a segment")
+    plt.ylabel("Pixel-count for a segment (total pixel counts = " + str(len(counts)) + ")")
     plt.tight_layout()
     plt.savefig('Figure_3.png')
 
+# now actually show some of the segments..
 
-
-print(len(points))
 
 # don't forget py tesseract..

@@ -99,7 +99,7 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
     ix = i * cols + j # linear index of (i, j) 
     if labels[ix] > 0: return  # stop: already labelled
     if i > rows or j > cols or i < 0 or j < 0: return  # stop: out of bounds
-    if my_color and my_color != str(rgb[ix]): return # stop: different colour
+    if my_color and my_color != str(rgb[ix]): return # stop: different colour than at invocation chain start
 
     # label this point
     labels[ix] = my_label if my_label else next_label
@@ -115,10 +115,16 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
 
     for di in [-1, 1]: # +-shaped nbhd!
         for dj in [-1, 1]:
-            pass
-            
-        
-    
+            find(i + di, j + dj, labels[idx], 
+
+
+for i in range(rows):
+    for j in range(cols):
+        find(i, j)
+
+print(labels)
+print(next_label)
+
 
 
 # don't forget py tesseract..

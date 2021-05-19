@@ -178,9 +178,12 @@ run("mkdir -p truth")
 
 ci = 0
 for point in points:
-    plt.figure()
-    plt.scatter([x[0] for x in point], [x[1] for x in point])
-    plt.savefig('truth' + os.path.sep + str(ci) + '.png')
+    if ci > 0: # skip the background / 0th label again
+        plt.figure()
+        fn = 'truth' + os.path.sep + str(ci) + '.png'
+        plt.scatter([x[0] for x in point], [x[1] for x in point])
+        print('+w ' + fn)
+        plt.savefig(fn)
     ci += 1
 
 # don't forget py tesseract..

@@ -264,10 +264,32 @@ render(["h3ll0 w0rlD"], 'test')
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') / 255.
-npx = rows * cols
 
 if not os.path.exists('Figure_4.png'):
     plot(dat, rows, cols, bands, 'Figure_4.png') # Figure 1
+
+npx = rows * cols
+rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]
+
+c = {} # count rgb values
+for x in rgb:
+    x = str(x)
+    c[x] = c[x] + 1 if x in c else 1
+# print(c)
+
+if not os.path.exists('Figure_5.png'):
+    plt.figure()
+    plt.bar(c.keys(), np.log(list(c.values())))
+    plt.title("Log of count of color values")
+    plt.savefig('Figure_5.png')
+    plt.close()
+
+# assume dominant color is background
+max_count = 0
+max_color = None
+for k in c:
+    if c[k] > max_count:
+        max_count, max_color = c[k], k
 
 labels, next_label = [0 for i in range(npx)], 1 # starting label: 0 == unlabelled!
 
@@ -298,20 +320,16 @@ counts.sort()
 print("counts", counts)
 
 # do another bar chart here!!!
-if not os.path.exists('Figure_5.png'):
-    print("+w Figure_5.png")
+if not os.path.exists('Figure_6.png'):
+    print("+w Figure_6.png")
     plt.figure(figsize=(8,8))
     fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
     plt.title("Pixel-count vs. number of segments w that count (total segments: " + str(len(points)) + ")")
     plt.xlabel("Number of segments with a given pixel count")
     plt.ylabel("Pixel-count for a segment (total pixel counts = " + str(len(counts)) + ")")
     plt.tight_layout()
-    plt.savefig('Figure_5.png')
+    plt.savefig('Figure_6.png')
     plt.close()
-
-
-
-
 
 # transform the train and test data into the expected format by distance??
 # do arrow plots to show how the distance works...

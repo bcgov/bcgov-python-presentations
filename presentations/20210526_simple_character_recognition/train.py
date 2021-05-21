@@ -59,7 +59,6 @@ def read_float(fn): # read the raw binary file
 
 cols, rows, bands = read_hdr('train.hdr')
 
-
 '''pixel @ (row, col) = (i, j):
 npx = nrow * ncol # number of pixels in image
 red value: dat[          i * ncol + j]
@@ -67,8 +66,6 @@ grn value: dat[    npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
 dat = read_float('train.bin') / 255.
-
-
 
 def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     dat = dat.reshape((bands, rows * cols))
@@ -150,17 +147,19 @@ for i in range(rows):
 i = 450
 for j in range(cols):
     flood(i, j)
+print("next_label", next_label)
 
 i = 500
 for j in range(cols):
     flood(i, j)
+print("next_label", next_label)
 
 i = 560
 for j in range(cols):
     flood(i, j)
 
 # print(labels)
-# print(next_label)
+print("next_label", next_label)
 
 points = [[] for i in range(next_label)]
 

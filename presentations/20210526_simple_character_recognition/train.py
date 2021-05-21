@@ -264,6 +264,11 @@ render(["h3ll0 w0rlD"], 'test')
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') / 255.
+npx = rows * cols
+
+if not os.path.exists('Figure_4.png'):
+    plot(dat, rows, cols, bands, 'Figure_4.png') # Figure 1
+
 labels, next_label = [0 for i in range(npx)], 1 # starting label: 0 == unlabelled!
 
 print("floodfill test data..")
@@ -293,15 +298,15 @@ counts.sort()
 print("counts", counts)
 
 # do another bar chart here!!!
-if not os.path.exists('Figure_4.png'):
-    print("+w Figure_4.png")
+if not os.path.exists('Figure_5.png'):
+    print("+w Figure_5.png")
     plt.figure(figsize=(8,8))
     fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
     plt.title("Pixel-count vs. number of segments w that count (total segments: " + str(len(points)) + ")")
     plt.xlabel("Number of segments with a given pixel count")
     plt.ylabel("Pixel-count for a segment (total pixel counts = " + str(len(counts)) + ")")
     plt.tight_layout()
-    plt.savefig('Figure_4.png')
+    plt.savefig('Figure_5.png')
     plt.close()
 
 

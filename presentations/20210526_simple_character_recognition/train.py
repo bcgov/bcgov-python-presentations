@@ -272,6 +272,41 @@ for i in range(rows):
     for j in range(cols):
         flood(i, j)
 
+points = [[] for i in range(next_label)]
+
+# gather the points for each label
+for i in range(rows):
+    # print(i, rows)
+    for j in range(cols):
+        ix = i * cols + j # linear index
+        if labels[ix] > 0: # skip background
+            label = labels[ix] # label this point
+            points[label] += [[i, j]]
+
+c = {}
+for point in points:
+    n = len(point)
+    c[n] = (c[n] + 1) if (n in c) else 1
+
+counts = [[k, c[k]] for k in c] # sort the counts
+counts.sort()
+print(counts)
+
+# do another bar chart here!!!
+if not os.path.exists('Figure_4.png'):
+    print("+w Figure_4.png")
+    plt.figure(figsize=(8,8))
+    fig = plt.barh([str(x[0]) for x in counts], [str(x[1]) for x in counts]) 
+    plt.title("Pixel-count vs. number of segments w that count (total segments: " + str(len(points)) + ")")
+    plt.xlabel("Number of segments with a given pixel count")
+    plt.ylabel("Pixel-count for a segment (total pixel counts = " + str(len(counts)) + ")")
+    plt.tight_layout()
+    plt.savefig('Figure_4.png')
+    plt.close()
+
+
+
+
 
 # transform the train and test data into the expected format by distance??
 # do arrow plots to show how the distance works...

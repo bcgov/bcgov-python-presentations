@@ -20,7 +20,7 @@ my_text = [chars(48, 58) + '\n', # 0-9
            chars(65, 91) + '\n', # A-Z
            chars(97, 123)]       # a-z
 
-def render(my_text, name='train'):
+def render(my_text, name):
     # use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
     open(name + '.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                                 '\\usepackage{xcolor}',
@@ -39,7 +39,7 @@ def render(my_text, name='train'):
             d = open(name + '.hdr').read() + 'band names = {red,\ngreen,\nblue}'
             open(name + '.hdr','wb').write(d.encode())
 
-render(my_text)
+render(my_text, 'train')
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
@@ -184,7 +184,7 @@ for point in points:
 
 counts = [[k, c[k]] for k in c] # sort the counts
 counts.sort()
-print(counts)
+print("counts", counts)
 
 # do another bar chart here!!!
 if not os.path.exists('Figure_3.png'):
@@ -260,7 +260,7 @@ try stuff on the test data!
 '''
 
 print("render test data..")
-render(["h3ll0 w0rlD"], "test")
+render(["h3ll0 w0rlD"], 'test')
 
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
@@ -272,6 +272,7 @@ for i in range(rows):
     for j in range(cols):
         flood(i, j)
 
+print("next_label", next_label)
 points = [[] for i in range(next_label)]
 
 # gather the points for each label
@@ -290,7 +291,7 @@ for point in points:
 
 counts = [[k, c[k]] for k in c] # sort the counts
 counts.sort()
-print(counts)
+print("counts", counts)
 
 # do another bar chart here!!!
 if not os.path.exists('Figure_4.png'):

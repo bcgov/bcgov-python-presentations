@@ -30,13 +30,14 @@ def render(my_text, name='train'):
         run('pdflatex ' + name + '.tex') # render with LaTeX
         run('convert -background white -density 200 ' + name + '.pdf ' + name + '.bmp') # convert to bitmap
         run('gdal_translate -of ENVI -ot Float32 ' + name + '.bmp ' + name + '.bin') # convert to raw binary
+        
+        if os.path.exists(name + '.hdr'):
+            # add band names
+            d = open(name + '.hdr').read() + 'band names = {red,\ngreen,\nblue}'
+            open(name + '.hdr','wb').write(d.encode())
 
 render(my_text)
 
-if os.path.exists('train.hdr'):
-    # add band names
-    d = open("train.hdr").read() + 'band names = {red,\ngreen,\nblue}'
-    open('train.hdr','wb').write(d.encode())
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
@@ -204,7 +205,7 @@ def normalize(A):
     cX, cY = np.mean(X), np.mean(Y)
     return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
 
-for i in range(len(points)): # centroid adjust
+for i in range(len(points)): # apply centroid adjust # WRITE OUT IN MATH?
     points[i] = normalize(points[i]) 
 
 run("mkdir -p truth")
@@ -228,8 +229,31 @@ for point in points:
 
 print(truth)
 
+def dist(X, Y):
+    # assume already centroid adjusted
+    # [x1, y1], [x2, y2]= normalize(X), normalize(Y) # centroid adjust
+    rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
+    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
+    for i in range(0, len(x1)):
+        for j in range(0, len(x2)):
+            dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
+    dm.sort() # sort the array
+    for k in range(0, len(dm)):
+        d, i, j = dm[k]
+        if (not i_f[i]) and (not j_f[j]):
+            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
+        # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
+        # Poisson? look at profiles of rho! A really interesting distribution
+        if i_f_n * j_f_n == 0: break
+    return rho
+
 
 render(["h3ll0 w0rlD"], "test")
 
+dat = read_float('test.bin') / 255.
+
+# transform the train and test data into the expected format by distance??
+# do arrow plots to show how the distance works...
+# refer to wasserstein distance?
 
 # don't forget py tesseract..

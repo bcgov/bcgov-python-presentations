@@ -1,5 +1,8 @@
 import os
 import sys
+import pickle
+import numpy as np
+import matplotlib.pyplot as plt
 
 def run(c): # run something at terminal and wait to finish
     print(c)
@@ -51,8 +54,6 @@ def read_hdr(hdr): # read the image dimensions
             pass
     return [int(x) for x in [cols, rows, bands]] # string to int
 
-import numpy as np
-
 def read_float(fn): # read the raw binary file
     return np.fromfile(fn, dtype = np.float32)
 
@@ -67,7 +68,7 @@ blu value: dat[2 * npx + i * ncol + j]'''
 
 dat = read_float('train.bin') / 255.
 
-import matplotlib.pyplot as plt
+
 
 def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     dat = dat.reshape((bands, rows * cols))
@@ -223,6 +224,12 @@ for point in points:
                 print('+w ' + fn)
                 plt.savefig(fn)
                 plt.close()
+
+            # save the points for this glyph, in a pickle file to restore later
+            fn = 'truth' + os.path.sep + truth_label + '.p'
+            if not os.path.exists(fn):
+                pickle.dump(point, open(fn, 'wb'))
+                
         except:
             pass
     ci += 1
@@ -248,9 +255,23 @@ def dist(X, Y):
     return rho
 
 
+'''
+try stuff on the test data!
+'''
+
+print("render test data..")
 render(["h3ll0 w0rlD"], "test")
 
+print("read test data..")
+cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') / 255.
+labels, next_label = [0 for i in range(npx)], 1 # starting label: 0 == unlabelled!
+
+print("floodfill test data..")
+for i in range(rows):
+    for j in range(cols):
+        flood(i, j)
+
 
 # transform the train and test data into the expected format by distance??
 # do arrow plots to show how the distance works...

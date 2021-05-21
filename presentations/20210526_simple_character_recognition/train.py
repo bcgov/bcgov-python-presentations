@@ -38,7 +38,6 @@ def render(my_text, name='train'):
 
 render(my_text)
 
-
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
     for line in open(hdr).readlines():
@@ -214,15 +213,16 @@ truth_points = {} # index the point sets by the character type representation
 for point in points:
     if ci > 0:
         try:
-            plt.figure()
             truth_label = truth[ci - 1]
             fn = 'truth' + os.path.sep + truth_label + '.png'
-            plt.scatter([x[1] for x in point], [-x[0] for x in point])
-            truth_points[truth_label] = point
-            plt.title(truth_label)
-            print('+w ' + fn)
-            plt.savefig(fn)
-            plt.close()
+            if not os.path.exists(fn):
+                plt.figure()
+                plt.scatter([x[1] for x in point], [-x[0] for x in point])
+                truth_points[truth_label] = point
+                plt.title(truth_label)
+                print('+w ' + fn)
+                plt.savefig(fn)
+                plt.close()
         except:
             pass
     ci += 1

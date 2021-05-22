@@ -351,6 +351,5 @@ for point in points:
     ci += 1
 
 
-
-# illustrate the centroid adjustment
+# illustrate the centroid adjustment !!!!!! 
 

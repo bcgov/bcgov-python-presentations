@@ -82,19 +82,4 @@ plt.figure()
 for p in predictions:
     plt.plot(p[0][1], -p[0][0])
     plt.text(p[0][1], -p[0][0], p[1])
-plt.show()
-
-
-# transform the train and test data into the expected format by distance??
-
-# do arrow plots to show how the distance works...
-
-# refer to wasserstein distance?
-
-# don't forget py tesseract..
-
-# last step: partition the pixel patterns into equivalence classes of images (as they're composed of pixels) # notice that the 
-
-# ARCHITECTURE DIAGRAM!!!!! ALGORITHMIC FLOW CHART.......
-
-# big dog style kick the robot.. noise? stretching???
+plt.savefig("prediction.png")

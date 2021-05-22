@@ -30,8 +30,6 @@ for i in range(len(truth_points)):
     truth_points_by_char[truth_labels[i]] = truth_points[i]
 
 def dist(X, Y):
-    print("X", X)
-    print("Y", Y)
     subdist = []
     rho, dm, [x1, y1], [x2, y2] = 0, [], X, Y
     i_f_n, j_f_n, arrows = len(x1), len(x2), []
@@ -53,79 +51,32 @@ def dist(X, Y):
         if i_f_n * j_f_n == 0:
             break # ran out of slots for X or Y: stop comparing..
 
-    # should probably divide RHO by the number of slots used!!!!
+    rho /= min(float(len(x1)), float(len(x2))) # divide by number of slots
     return rho, arrows, subdist
 
-X_array = [truth_points_by_char[c] for c in ['A','B','C']]
-for pi in range(len(X_array)):
-    p = X_array[pi]
-    for i in range(len(X_array)):
-        t = X_array[i]
-        print("p", p)
-        print("t", t)
+# match onto each character!
+predictions = []
+
+for pi in range(len(test_points)):
+    p = test_points[pi]
+
+    # calculate the closest truth value
+    min_d = sys.float_info.max # FLT_MAX in C/C++
+    min_i = None
+
+    for i in range(len(truth_points)):
+        t = truth_points[i]
         d, arrows, subdist = dist(p, t)
 
-        [x1, y1], [x2, y2] = p, t
+        if d < min_d:
+            min_d = d
+            min_i = i
 
-        ax, ay, au, av = [], [], [], []
-        for a in arrows:
-            [sx, sy], [ex, ey] = a # start x,y, end x,y
-            ax += [sx]  # arrow starting position
-            ay += [sy]
-            au += [ex - sx] # arrow delta (flip the direction cuz the direction changes later)
-            av += [ey - sy]
+    prediction = truth_labels[min_i]
+    predictions.append(prediction)
 
-        plt.figure()
-        plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
-        plt.scatter(y2, -np.array(x2), color='g')
-        plt.savefig(str(pi) + "_" + str(i) + ".png")
+print("prediction", predictions) # plot distribution of distances, by character!!!!! 
 
-
-        plt.figure()
-        plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
-        plt.scatter(y2, -np.array(x2), color='g')
-        # plt.scatter(ax, ay, color='r')
-        plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
-        plt.savefig(str(pi) + "_" + str(i) + "_.png")
-        # sys.exit(1)
-
-
-        '''if d==0:
-            print("train_label", truth_labels[i])
-            os.system("eog test/" + test_files[pi][:-2] +'.png')
-        '''
-    # sys.exit(1)
-
-
-
-'''
-o_f, r_i, n_glyph = open("outfile" + str(ci) + ".ext", "wb"), 0, len(px)
-for ix in px:
-    r_i += 1
-    if len(px[ix]) > a and len(px[ix]) < b: #print ix, '->', px[ix]
-        x, y = [], []
-        for p in px[ix]:
-            i, j = p.split(",")
-            x.append(float(j)); y.append(-float(i))
-        xb, yb = np.mean(x), np.mean(y) # we shouldn't do this twice! scratch this later..
-        x, y = [i - xb for i in x], [i - yb for i in y]
-        ci, d_min, c_min = 0, None, None
-        for c in chars:
-            d, ci = dist([x,y], truth[c]), ci + 1  # should use set builder notation on this?
-            d_min, c_min = d if ci == 1 else d_min,  c if ci == 1 else c_min
-            if d < d_min: d_min, c_min = d, c
-        if d_min > 0.1: print(c_min, "d= %.1f" % d_min, "r=", r_i, "/", n_glyph)
-        if d_min > 2.:
-            if r_i > 111:
-                break
-        o_f.write(c_min.encode('ascii'))
-o_f.close()
-
-# these last two lines commented out because we already (re)named..
-#if len(sys.argv) > 1:
-#    a = os.system("cp -v outfile.ext outfile"+str(sys.argv[1])+".ext")
-
-'''
 print("done parse")
 
 # transform the train and test data into the expected format by distance??
@@ -138,4 +89,6 @@ print("done parse")
 
 # last step: partition the pixel patterns into equivalence classes of images (as they're composed of pixels) # notice that the 
 
-# ARCHITECTURE DIAGRAM!!!!!
+# ARCHITECTURE DIAGRAM!!!!! ALGORITHMIC FLOW CHART.......
+
+# big dog style kick the robot.. noise? stretching???

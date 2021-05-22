@@ -77,8 +77,6 @@ for pi in range(len(test_points)):
 
 print("prediction", predictions) # plot distribution of distances, by character!!!!! 
 
-print("done parse")
-
 # transform the train and test data into the expected format by distance??
 
 # do arrow plots to show how the distance works...

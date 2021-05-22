@@ -17,7 +17,7 @@ def files(path, ext): # get files with specified extension filename.ext
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 
-test_files =  files('test', '.p')
+test_files =  files('test', '.p') # walk can mess up ordering? Walk once
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in test_files]
 test_centroids = [[float(x) for x in open('test' + os.path.sep + f[:-2] + '.centroid', 'rb').read().strip().split()] for f in test_files]
 print("centroids", test_centroids)
@@ -80,9 +80,8 @@ print("prediction", predictions) # plot distribution of distances, by character!
 
 plt.figure()
 for p in predictions:
-    plt.plot(p[0][0], p[0][1])
-
-    plt.text(p[0][0], p[0][1], p[1])
+    plt.plot(p[0][1], -p[0][0])
+    plt.text(p[0][1], -p[0][0], p[1])
 plt.show()
 
 

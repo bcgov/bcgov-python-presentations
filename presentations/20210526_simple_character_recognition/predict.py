@@ -17,8 +17,9 @@ def files(path, ext): # get files with specified extension filename.ext
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 
-test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')]
-test_centroids = [[float(x) for x in open('test' + os.path.sep + f, 'rb').read().strip().split()] for f in files('test', '.centroid')]
+test_files =  files('test', '.p')
+test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in test_files]
+test_centroids = [[float(x) for x in open('test' + os.path.sep + f[:-2] + '.centroid', 'rb').read().strip().split()] for f in test_files]
 print("centroids", test_centroids)
 '''[[450.62068965517244, 423.4396551724138], [450.0, 502.820987654321], [451.70103092783506, 379.7938144329897], [450.62068965517244, 466.4396551724138], [452.8125, 449.3392857142857], [451.1517857142857, 395.08035714285717], [452.1132075471698, 478.39622641509436], [450.17021276595744, 488.36170212765956], [450.17021276595744, 405.36170212765956], [450.17021276595744, 413.36170212765956], [2014.9074074074074, 849.1111111111111]] '''
 
@@ -76,6 +77,14 @@ for pi in range(len(test_points)):
     predictions.append([test_centroids[pi], prediction])
 
 print("prediction", predictions) # plot distribution of distances, by character!!!!! 
+
+plt.figure()
+for p in predictions:
+    plt.plot(p[0][0], p[0][1])
+
+    plt.text(p[0][0], p[0][1], p[1])
+plt.show()
+
 
 # transform the train and test data into the expected format by distance??
 

@@ -14,17 +14,15 @@ def files(path, ext): # get files with specified extension filename.ext
 train_points = [pickle.load(f) for f in files('truth', '.p')]
 train_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 print("train_labels", train_labels)
-test_points = [pickle.load(f) for f in files('train', '.p')] # don't forget we kept the centroids!
+test_files = files('test', '.p')
+test_points = [pickle.load(f) for f in files('test', '.p')] # don't forget we kept the centroids!
 
 train_points = [[[x[0] for x in X], [x[1] for x in X]] for X in train_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 
-
 sys.exit(1)
 
 def dist(X, Y):
-    # assume already centroid adjusted?
-    # [x1, y1], [x2, y2]= normalize(X), normalize(Y) # centroid adjust
     rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
     i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
     for i in range(0, len(x1)):
@@ -37,8 +35,13 @@ def dist(X, Y):
             i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
         # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
         # Poisson? look at profiles of rho! A really interesting distribution
-        if i_f_n * j_f_n == 0: break
+        if i_f_n * j_f_n == 0: break # what does this mean???
     return rho
+
+for p in test_points:
+    for t in train_points:
+        print(dist(p, t))
+    sys.exit(1)
 
 
 

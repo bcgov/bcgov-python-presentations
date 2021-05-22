@@ -19,6 +19,7 @@ truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '
 test_files = files('test', '.p')
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')] # don't forget we kept the centroids!
 
+# reformat the data
 truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 

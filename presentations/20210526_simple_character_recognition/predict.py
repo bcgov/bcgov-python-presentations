@@ -79,3 +79,5 @@ print("done parse")
 # don't forget py tesseract..
 
 # last step: partition the pixel patterns into equivalence classes of images (as they're composed of pixels) # notice that the 
+
+# ARCHITECTURE DIAGRAM!!!!!

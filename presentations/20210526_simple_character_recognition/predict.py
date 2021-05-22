@@ -16,6 +16,8 @@ def files(path, ext): # get files with specified extension filename.ext
 
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
+
+
 test_files = files('test', '.p')
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')] # don't forget we kept the centroids!
 
@@ -23,7 +25,14 @@ test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files(
 truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 
+truth_points_by_char = {}
+for i in range(len(truth_points)):
+    truth_points_by_char[truth_labels[i]] = truth_points[i]
+
 def dist(X, Y):
+    print("X", X)
+    print("Y", Y)
+    subdist = []
     rho, dm, [x1, y1], [x2, y2] = 0, [], X, Y
     i_f_n, j_f_n, arrows = len(x1), len(x2), []
     i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))] # slots for each element compared
@@ -40,17 +49,21 @@ def dist(X, Y):
             i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d # add this term to distance and close the slots
             if d > 0:
                 arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]]) # record the stuff on the distance
+                subdist.append(d)
         if i_f_n * j_f_n == 0:
             break # ran out of slots for X or Y: stop comparing..
 
     # should probably divide RHO by the number of slots used!!!!
-    return rho, arrows
+    return rho, arrows, subdist
 
-for pi in range(len(test_points)):
-    p = test_points[pi]
-    for i in range(0, len(truth_points)):
-        t = truth_points[i]
-        d, arrows = dist(p, t)
+X_array = [truth_points_by_char[c] for c in ['b','d','g']]
+for pi in range(len(X_array)):
+    p = X_array[pi]
+    for i in range(len(X_array)):
+        t = X_array[i]
+        print("p", p)
+        print("t", t)
+        d, arrows, subdist = dist(p, t)
 
         [x1, y1], [x2, y2] = p, t
 
@@ -59,14 +72,25 @@ for pi in range(len(test_points)):
             [sx, sy], [ex, ey] = a # start x,y, end x,y
             ax += [sx]  # arrow starting position
             ay += [sy]
-            au += [ex - sx] # arrow delta
+            au += [ex - sx] # arrow delta (flip the direction cuz the direction changes later)
             av += [ey - sy]
 
         plt.figure()
         plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
-        plt.scatter(y2, -np.array(x2), color='r')
-        plt.quiver(ax, ay, au, av, color='g')
-        plt.show()
+        plt.scatter(y2, -np.array(x2), color='g')
+        plt.savefig("A.png")
+
+
+        plt.figure()
+        plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
+        plt.scatter(y2, -np.array(x2), color='g')
+        # plt.scatter(ax, ay, color='r')
+        plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
+        plt.savefig("B.png")
+        
+        a = os.system("eog A.png B.png")
+        # sys.exit(1)
+
 
         '''if d==0:
             print("train_label", truth_labels[i])

@@ -198,10 +198,14 @@ if not os.path.exists('Figure_3.png'):
     plt.close()
 
 # centroid adjustment
-def normalize(A):
+
+def centroid(A):
     X = [x[0] for x in A]
     Y = [x[1] for x in A]
-    cX, cY = np.mean(X), np.mean(Y)
+    return [np.mean(X), np.mean(Y)]
+
+def normalize(A):
+    cX, cY = centroid(A)
     return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
 
 for i in range(len(points)): # apply centroid adjust # WRITE OUT IN MATH?
@@ -234,25 +238,6 @@ for point in points:
     ci += 1
 
 print(truth)
-
-def dist(X, Y):
-    # assume already centroid adjusted
-    # [x1, y1], [x2, y2]= normalize(X), normalize(Y) # centroid adjust
-    rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
-    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
-    for i in range(0, len(x1)):
-        for j in range(0, len(x2)):
-            dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
-    dm.sort() # sort the array
-    for k in range(0, len(dm)):
-        d, i, j = dm[k]
-        if (not i_f[i]) and (not j_f[j]):
-            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
-        # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
-        # Poisson? look at profiles of rho! A really interesting distribution
-        if i_f_n * j_f_n == 0: break
-    return rho
-
 
 '''
 try stuff on the test data!
@@ -330,6 +315,52 @@ if not os.path.exists('Figure_6.png'):
     plt.tight_layout()
     plt.savefig('Figure_6.png')
     plt.close()
+
+
+run("mkdir -p test")
+ci = 0
+test_points = {} # index the point sets by the character type representation
+for point in points:
+    if ci > 0:
+        try:
+            fn = 'test' + os.path.sep + str(ci) + '.png'
+            if not os.path.exists(fn):
+                plt.figure()
+                plt.scatter([x[1] for x in point], [-x[0] for x in point])
+                # truth_points[truth_label] = point
+                plt.title('test_' + str(ci)) # truth_label)
+                print('+w ' + fn)
+                plt.savefig(fn)
+                plt.close()
+
+            # save the points for this glyph, in a pickle file to restore later
+            fn = 'test' + os.path.sep + str(ci) + '.p'
+            if not os.path.exists(fn):
+                pickle.dump(point, open(fn, 'wb'))
+                
+        except:
+            pass
+    ci += 1
+
+
+def dist(X, Y):
+    # assume already centroid adjusted
+    # [x1, y1], [x2, y2]= normalize(X), normalize(Y) # centroid adjust
+    rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
+    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
+    for i in range(0, len(x1)):
+        for j in range(0, len(x2)):
+            dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
+    dm.sort() # sort the array
+    for k in range(0, len(dm)):
+        d, i, j = dm[k]
+        if (not i_f[i]) and (not j_f[j]):
+            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
+        # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
+        # Poisson? look at profiles of rho! A really interesting distribution
+        if i_f_n * j_f_n == 0: break
+    return rho
+
 
 # transform the train and test data into the expected format by distance??
 # do arrow plots to show how the distance works...

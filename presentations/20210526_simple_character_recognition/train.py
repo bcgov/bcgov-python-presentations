@@ -24,6 +24,8 @@ def render(my_text, name):
     # use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
     open(name + '.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                                 '\\usepackage{xcolor}',
+                                                '\\usepackage{microtype}',
+                                                '\\DisableLigatures{encoding = *, family = *}',
                                                 '\\begin{document}',
                                                 '\\color{blue}'] +
                                                 my_text + 
@@ -31,7 +33,7 @@ def render(my_text, name):
 
     if not os.path.exists(name + '.bin'): # delete train.bin to start from new data
         run('pdflatex ' + name + '.tex') # render with LaTeX
-        run('convert -background white -density 200 ' + name + '.pdf ' + name + '.bmp') # convert to bitmap
+        run('convert -background white -density 333 ' + name + '.pdf ' + name + '.bmp') # convert to bitmap
         run('gdal_translate -of ENVI -ot Float32 ' + name + '.bmp ' + name + '.bin') # convert to raw binary
         
         if os.path.exists(name + '.hdr'):
@@ -246,7 +248,18 @@ try stuff on the test data!
 '''
 
 print("render test data..")
-render(["h3ll0 w0rlD"], 'test')
+
+render(["Through three cheese trees\\ \\\\",
+        "three free fleas flew\\ \\\\",
+        "While these fleas flew\\ \\\\",
+        "freezy breeze blew\\ \\\\", 
+        "Freezy breeze made\\ \\\\", 
+        "these three trees freeze\\ \\\\",
+        "Freezy trees made\\ \\\\",
+        "these trees cheese freeze\\ \\\\",
+        "Thats what made these\\ \\\\",
+        "three free fleas sneeze\\ \\\\"],
+        'test')
 
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')

@@ -3,6 +3,7 @@ import sys
 import pickle
 import numpy as np
 from os import walk
+import multiprocessing as mp
 import matplotlib.pyplot as plt
 
 def files(path, ext): # get files with specified extension filename.ext
@@ -30,10 +31,11 @@ test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 truth_points_by_char = {truth_labels[i]: truth_points[i] for i in range(len(truth_points))}
    
 def dist(X, Y):
-    subdist = []
     rho, [x1, y1], [x2, y2] = 0, X, Y
-    i_f_n, j_f_n, arrows = len(x1), len(x2), []
-    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))] # slots for each element's inclusion in traffic plan
+    i_f_n, j_f_n = len(x1), len(x2)
+    subdist, arrows = [], []
+    i_f = [False for i in range(len(x1))]
+    j_f = [False for i in range(len(x2))] # slots for each element's inclusion in traffic plan
     dm = [[abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j] for i in range(0, len(x1)) for j in range(0, len(x2))]
     dm.sort() # sort the matrix
 
@@ -53,7 +55,10 @@ def dist(X, Y):
 # match onto each character
 predictions = [] # list of characters we're trying to infer..
 
-for pi in range(len(test_points)):
+def parfor(my_func, my_in):
+    return mp.Pool(mp.cpu_count()).map(my_func, my_in)
+
+def predict_i(pi): # for pi in range(len(test_points)):
     p = test_points[pi]
 
     # calculate the closest truth value
@@ -67,7 +72,17 @@ for pi in range(len(test_points)):
             min_d, min_i = d, i
 
     prediction = truth_labels[min_i]
-    predictions.append([test_centroids[pi], prediction])
+    # predictions.append([test_centroids[pi], prediction])
+    return([test_centroids[pi], prediction])
+    # print("point", pi, "of", len(test_points))
+    '''
+    plt.figure()
+    # plot stuff in here to find out what's matched to what
+    plt.savefig('match_' + str(pi) +'.png')
+    plt.close()
+    '''
+
+predictions = parfor(predict_i, range(len(test_points)))
 
 print("prediction", predictions) # plot distribution of distances, by character!!!!! 
 
@@ -75,4 +90,4 @@ plt.figure()
 for p in predictions:
     plt.plot(p[0][1], -p[0][0])
     plt.text(p[0][1], -p[0][0], p[1])
-plt.savefig("prediction.png")
+plt.show() # savefig("prediction.png")

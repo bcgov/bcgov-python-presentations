@@ -206,6 +206,8 @@ def centroid(A):
 
 def normalize(A):
     cX, cY = centroid(A)
+    X = [x[0] for x in A]
+    Y = [x[1] for x in A]
     return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
 
 for i in range(len(points)): # apply centroid adjust # WRITE OUT IN MATH?

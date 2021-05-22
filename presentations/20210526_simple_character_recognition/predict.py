@@ -56,7 +56,7 @@ def dist(X, Y):
     # should probably divide RHO by the number of slots used!!!!
     return rho, arrows, subdist
 
-X_array = [truth_points_by_char[c] for c in ['b','d','g']]
+X_array = [truth_points_by_char[c] for c in ['A','B','C']]
 for pi in range(len(X_array)):
     p = X_array[pi]
     for i in range(len(X_array)):
@@ -78,7 +78,7 @@ for pi in range(len(X_array)):
         plt.figure()
         plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
         plt.scatter(y2, -np.array(x2), color='g')
-        plt.savefig("A.png")
+        plt.savefig(str(pi) + "_" + str(i) + ".png")
 
 
         plt.figure()
@@ -86,9 +86,7 @@ for pi in range(len(X_array)):
         plt.scatter(y2, -np.array(x2), color='g')
         # plt.scatter(ax, ay, color='r')
         plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
-        plt.savefig("B.png")
-        
-        a = os.system("eog A.png B.png")
+        plt.savefig(str(pi) + "_" + str(i) + "_.png")
         # sys.exit(1)
 
 
@@ -96,7 +94,7 @@ for pi in range(len(X_array)):
             print("train_label", truth_labels[i])
             os.system("eog test/" + test_files[pi][:-2] +'.png')
         '''
-    sys.exit(1)
+    # sys.exit(1)
 
 
 

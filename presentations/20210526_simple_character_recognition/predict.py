@@ -38,9 +38,12 @@ def dist(X, Y):
         d, i, j = dm[k]
         if (not i_f[i]) and (not j_f[j]): # if the slots for both elements compared are open:
             i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d # add this term to distance and close the slots
-            arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]]) # record the stuff on the distance
+            if d > 0:
+                arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]]) # record the stuff on the distance
         if i_f_n * j_f_n == 0:
-            break # what does this mean???
+            break # ran out of slots for X or Y: stop comparing..
+
+    # should probably divide RHO by the number of slots used!!!!
     return rho, arrows
 
 for pi in range(len(test_points)):
@@ -51,9 +54,18 @@ for pi in range(len(test_points)):
 
         [x1, y1], [x2, y2] = p, t
 
+        ax, ay, au, av = [], [], [], []
+        for a in arrows:
+            [sx, sy], [ex, ey] = a # start x,y, end x,y
+            ax += [sx]  # arrow starting position
+            ay += [sy]
+            au += [ex - sx] # arrow delta
+            av += [ey - sy]
+
         plt.figure()
-        plt.scatter(y1, -np.array(x1), color='b')
+        plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
         plt.scatter(y2, -np.array(x2), color='r')
+        plt.quiver(ax, ay, au, av, color='g')
         plt.show()
 
         '''if d==0:

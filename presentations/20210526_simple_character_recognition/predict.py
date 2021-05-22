@@ -12,11 +12,11 @@ def files(path, ext): # get files with specified extension filename.ext
             ret.append(f)
     return ret
 
-train_points = [pickle.load(open('truth' + os.path.sep + f)) for f in files('truth', '.p')]
+train_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 train_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 print("train_labels", train_labels)
 test_files = files('test', '.p')
-test_points = [pickle.load(open('test' + os.path.sep + f)) for f in files('test', '.p')] # don't forget we kept the centroids!
+test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')] # don't forget we kept the centroids!
 
 train_points = [[[x[0] for x in X], [x[1] for x in X]] for X in train_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]

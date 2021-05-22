@@ -1,7 +1,9 @@
 import os
 import sys
 import pickle
+import numpy as np
 from os import walk
+import matplotlib.pyplot as plt
 
 def files(path, ext): # get files with specified extension filename.ext
     ret = []
@@ -12,37 +14,51 @@ def files(path, ext): # get files with specified extension filename.ext
             ret.append(f)
     return ret
 
-train_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
-train_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
-print("train_labels", train_labels)
-print("len(train_labels)=", len(train_labels))
+truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
+truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 test_files = files('test', '.p')
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')] # don't forget we kept the centroids!
 
-train_points = [[[x[0] for x in X], [x[1] for x in X]] for X in train_points]
+truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 
-sys.exit(1)
-
 def dist(X, Y):
-    rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
-    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
-    for i in range(0, len(x1)):
-        for j in range(0, len(x2)):
+    rho, dm, [x1, y1], [x2, y2] = 0, [], X, Y
+    i_f_n, j_f_n, arrows = len(x1), len(x2), []
+    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))] # slots for each element compared
+
+    for i in range(0, len(x1)): # calculate sorted distance matrix
+        for j in range(0, len(x2)): 
             dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
     dm.sort() # sort the array
+
+    # find the distance matrix elements
     for k in range(0, len(dm)):
         d, i, j = dm[k]
-        if (not i_f[i]) and (not j_f[j]):
-            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
-        # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
-        # Poisson? look at profiles of rho! A really interesting distribution
-        if i_f_n * j_f_n == 0: break # what does this mean???
-    return rho
+        if (not i_f[i]) and (not j_f[j]): # if the slots for both elements compared are open:
+            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d # add this term to distance and close the slots
+            arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]]) # record the stuff on the distance
+        if i_f_n * j_f_n == 0:
+            break # what does this mean???
+    return rho, arrows
 
-for p in test_points:
-    for t in train_points:
-        print(dist(p, t))
+for pi in range(len(test_points)):
+    p = test_points[pi]
+    for i in range(0, len(truth_points)):
+        t = truth_points[i]
+        d, arrows = dist(p, t)
+
+        [x1, y1], [x2, y2] = p, t
+
+        plt.figure()
+        plt.scatter(y1, -np.array(x1), color='b')
+        plt.scatter(y2, -np.array(x2), color='r')
+        plt.show()
+
+        '''if d==0:
+            print("train_label", truth_labels[i])
+            os.system("eog test/" + test_files[pi][:-2] +'.png')
+        '''
     sys.exit(1)
 
 

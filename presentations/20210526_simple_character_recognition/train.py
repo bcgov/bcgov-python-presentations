@@ -335,42 +335,22 @@ for point in points:
                 plt.savefig(fn)
                 plt.close()
 
-            # save the points for this glyph, in a pickle file to restore later
-            fn = 'test' + os.path.sep + str(ci) + '.p'
-            if not os.path.exists(fn):
-                pickle.dump(point, open(fn, 'wb'))
-
             fn = 'test' + os.path.sep + str(ci) + '.centroid'
             if not os.path.exists(fn):
                 cX, cY = centroid(point)
                 open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
                 
+            point = normalize(point) # centroid adjustment
+
+            # save the points for this glyph, in a pickle file to restore later
+            fn = 'test' + os.path.sep + str(ci) + '.p'
+            if not os.path.exists(fn):
+                pickle.dump(point, open(fn, 'wb'))
         except:
             pass
     ci += 1
 
 
-def dist(X, Y):
-    # assume already centroid adjusted
-    # [x1, y1], [x2, y2]= normalize(X), normalize(Y) # centroid adjust
-    rho, dm, i_f_n, j_f_n = 0., [], [], [], len(x1), len(x2)
-    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))]
-    for i in range(0, len(x1)):
-        for j in range(0, len(x2)):
-            dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
-    dm.sort() # sort the array
-    for k in range(0, len(dm)):
-        d, i, j = dm[k]
-        if (not i_f[i]) and (not j_f[j]):
-            i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d
-        # print(rho, d, i, j) # study the probability of this changing. If unlikely to change, quit.
-        # Poisson? look at profiles of rho! A really interesting distribution
-        if i_f_n * j_f_n == 0: break
-    return rho
 
+# illustrate the centroid adjustment
 
-# transform the train and test data into the expected format by distance??
-# do arrow plots to show how the distance works...
-# refer to wasserstein distance?
-
-# don't forget py tesseract..

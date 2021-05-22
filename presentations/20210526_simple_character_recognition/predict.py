@@ -2,7 +2,7 @@ import sys
 mypath = "test"
 from os import walk
 
-def files(path, ext):
+def files(path, ext): # get files with specified extension filename.ext
     ret = []
     _, _, filenames = next(walk(mypath))
     print(filenames)
@@ -12,7 +12,11 @@ def files(path, ext):
     return ret
 
 train_points = [pickle.load(f) for f in files('truth', '.p')]
-test_points = [pickle.load(f) for f in files('train', '.p')]
+test_points = [pickle.load(f) for f in files('train', '.p')] # don't forget we kept the centroids!
+
+train_points = [[[x[0] for x in X], [x[1] for x in X]] for X in train_points]
+test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
+
 
 
 sys.exit(1)

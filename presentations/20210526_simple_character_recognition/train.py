@@ -339,6 +339,11 @@ for point in points:
             fn = 'test' + os.path.sep + str(ci) + '.p'
             if not os.path.exists(fn):
                 pickle.dump(point, open(fn, 'wb'))
+
+            fn = 'test' + os.path.sep + str(ci) + '.centroid'
+            if not os.path.exists(fn):
+                cX, cY = centroid(point)
+                open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
                 
         except:
             pass

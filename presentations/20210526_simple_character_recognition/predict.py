@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 def files(path, ext): # get files with specified extension filename.ext
     ret = []
     _, _, filenames = next(walk(path))
-    print(filenames)
     for f in filenames:
         if f[-len(ext):] == ext:
             ret.append(f)
@@ -20,6 +19,7 @@ truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '
 test_files =  files('test', '.p') # walk can mess up ordering? Walk once
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in test_files]
 test_centroids = [[float(x) for x in open('test' + os.path.sep + f[:-2] + '.centroid', 'rb').read().strip().split()] for f in test_files]
+
 print("centroids", test_centroids)
 '''[[450.62068965517244, 423.4396551724138], [450.0, 502.820987654321], [451.70103092783506, 379.7938144329897], [450.62068965517244, 466.4396551724138], [452.8125, 449.3392857142857], [451.1517857142857, 395.08035714285717], [452.1132075471698, 478.39622641509436], [450.17021276595744, 488.36170212765956], [450.17021276595744, 405.36170212765956], [450.17021276595744, 413.36170212765956], [2014.9074074074074, 849.1111111111111]] '''
 
@@ -27,24 +27,17 @@ print("centroids", test_centroids)
 truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 
-truth_points_by_char = {}
-for i in range(len(truth_points)):
-    truth_points_by_char[truth_labels[i]] = truth_points[i]
-
+truth_points_by_char = {truth_labels[i]: truth_points[i] for i in range(len(truth_points))}
+   
 def dist(X, Y):
     subdist = []
-    rho, dm, [x1, y1], [x2, y2] = 0, [], X, Y
+    rho, [x1, y1], [x2, y2] = 0, X, Y
     i_f_n, j_f_n, arrows = len(x1), len(x2), []
-    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))] # slots for each element compared
+    i_f, j_f = [False for i in range(len(x1))], [False for i in range(len(x2))] # slots for each element's inclusion in traffic plan
+    dm = [[abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j] for i in range(0, len(x1)) for j in range(0, len(x2))]
+    dm.sort() # sort the matrix
 
-    for i in range(0, len(x1)): # calculate sorted distance matrix
-        for j in range(0, len(x2)): 
-            dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
-
-    dm.sort() # sort the array
-
-    # find the distance matrix elements
-    for k in range(0, len(dm)):
+    for k in range(0, len(dm)): # dmat elements
         d, i, j = dm[k]
         if (not i_f[i]) and (not j_f[j]): # if the slots for both elements compared are open:
             i_f[i], i_f_n, j_f[j], j_f_n, rho = True, i_f_n - 1, True, j_f_n - 1, rho + d # add this term to distance and close the slots

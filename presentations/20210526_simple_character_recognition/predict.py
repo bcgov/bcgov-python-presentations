@@ -17,9 +17,10 @@ def files(path, ext): # get files with specified extension filename.ext
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 
-
-test_files = files('test', '.p')
-test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')] # don't forget we kept the centroids!
+test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in files('test', '.p')]
+test_centroids = [[float(x) for x in open('test' + os.path.sep + f, 'rb').read().strip().split()] for f in files('test', '.centroid')]
+print("centroids", test_centroids)
+'''[[450.62068965517244, 423.4396551724138], [450.0, 502.820987654321], [451.70103092783506, 379.7938144329897], [450.62068965517244, 466.4396551724138], [452.8125, 449.3392857142857], [451.1517857142857, 395.08035714285717], [452.1132075471698, 478.39622641509436], [450.17021276595744, 488.36170212765956], [450.17021276595744, 405.36170212765956], [450.17021276595744, 413.36170212765956], [2014.9074074074074, 849.1111111111111]] '''
 
 # reformat the data
 truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
@@ -38,6 +39,7 @@ def dist(X, Y):
     for i in range(0, len(x1)): # calculate sorted distance matrix
         for j in range(0, len(x2)): 
             dm.append([abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j])
+
     dm.sort() # sort the array
 
     # find the distance matrix elements
@@ -54,26 +56,24 @@ def dist(X, Y):
     rho /= min(float(len(x1)), float(len(x2))) # divide by number of slots
     return rho, arrows, subdist
 
-# match onto each character!
-predictions = []
+# match onto each character
+predictions = [] # list of characters we're trying to infer..
 
 for pi in range(len(test_points)):
     p = test_points[pi]
 
     # calculate the closest truth value
-    min_d = sys.float_info.max # FLT_MAX in C/C++
-    min_i = None
+    min_d, min_i = sys.float_info.max, None   # FLT_MAX in C
 
     for i in range(len(truth_points)):
         t = truth_points[i]
         d, arrows, subdist = dist(p, t)
 
         if d < min_d:
-            min_d = d
-            min_i = i
+            min_d, min_i = d, i
 
     prediction = truth_labels[min_i]
-    predictions.append(prediction)
+    predictions.append([test_centroids[pi], prediction])
 
 print("prediction", predictions) # plot distribution of distances, by character!!!!! 
 

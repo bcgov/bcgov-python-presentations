@@ -235,7 +235,6 @@ if not os.path.exists('Figure_6.png'):
     plt.savefig('Figure_6.png')
     plt.close()
 
-
 ci, test_points = 0, {} # point sets indexed by the character-type representation
 for point in points:
     if ci > 0:
@@ -249,7 +248,7 @@ for point in points:
                 plt.savefig(fn)
                 plt.close()
 
-            fn = 'test' + os.path.sep + str(ci) + '.centroid'  # record the centroid for "reconstruction"
+            fn = 'test' + os.path.sep + str(ci) + '.centroid'  # record centroid for "reconstruction". Why? Glyphs not equal size. Faller glyphs come out first! 
             if not os.path.exists(fn):
                 cX, cY = centroid(point)
                 open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
@@ -262,6 +261,3 @@ for point in points:
         except:
             pass
     ci += 1
-
-# illustrate the centroid adjustment !!!!!! 
-# plot a figure with centroid adjustment, and one without!!!!!

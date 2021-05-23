@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 from render import render # LaTeX rendering
 import matplotlib.pyplot as plt
-from image import read_hdr, read_float, plot
+from image import read_hdr, read_float, plot # image reader, no deps
 from dist import centroid, normalize, to_list
 
 # untangle the data generation from the segmentation

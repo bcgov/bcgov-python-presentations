@@ -1,9 +1,12 @@
+import os
 
-
-
-
+def run(c): # run something at terminal and wait to finish
+    print(c)
+    a = os.system(c)
 
 def render(my_text, name):
+    run('mkdir -p ' + name)
+
     # use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
     open(name + '.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
                                                 '\\usepackage{lmodern}',

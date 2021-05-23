@@ -5,10 +5,6 @@ import numpy as np
 from render import render # our LaTeX rendering function
 import matplotlib.pyplot as plt
 
-def run(c): # run something at terminal and wait to finish
-    print(c)
-    a = os.system(c)
-
 truth = [] # these are the characters we'd like to classify
 
 def chars(i, j):
@@ -197,7 +193,7 @@ def normalize(A):
 for i in range(len(points)): # apply centroid adjust # WRITE OUT IN MATH?
     points[i] = normalize(points[i]) 
 
-run("mkdir -p truth")
+# run("mkdir -p truth")
 ci = 0
 truth_points = {} # index the point sets by the character type representation
 for point in points:
@@ -315,7 +311,7 @@ if not os.path.exists('Figure_6.png'):
     plt.close()
 
 
-run("mkdir -p test")
+# run("mkdir -p test")
 ci = 0
 test_points = {} # index the point sets by the character type representation
 for point in points:

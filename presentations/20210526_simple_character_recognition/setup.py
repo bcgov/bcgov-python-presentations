@@ -142,24 +142,6 @@ for point in points:  # plot image rep. of each "truth" data character, in an ap
 
 print(truth)
 
-'''now try the same stuff on the test data!'''
-
-print("render test data..")
-'''render(["hello world"], 'test')
-'''
-if not os.path.exists('test.bin'):
-    render(["Through three cheese trees\\ \\\\",
-            "three free fleas flew\\ \\\\",
-            "While these fleas flew\\ \\\\",
-            "freezy breeze blew\\ \\\\", 
-            "Freezy breeze made\\ \\\\", 
-            "these three trees freeze\\ \\\\",
-            "Freezy trees made\\ \\\\",
-            "these trees cheese freeze\\ \\\\",
-            "Thats what made these\\ \\\\",
-            "three free fleas sneeze\\ \\\\"],
-            'test')
-
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') 
@@ -200,18 +182,7 @@ for i in range(rows):
 print("next_label", next_label)
 
 points = gather_points(labels, next_label, rows, cols)
-'''
-points = [[] for i in range(next_label)]
 
-# gather the points for each label
-for i in range(rows):
-    # print(i, rows)
-    for j in range(cols):
-        ix = i * cols + j # linear index
-        if labels[ix] > 0: # skip background
-            label = labels[ix] # label this point
-            points[label] += [[i, j]]
-'''
 c = {}
 for point in points:
     n = len(point)

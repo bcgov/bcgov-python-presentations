@@ -1,3 +1,4 @@
+'''read ENVI/raw binary format. Dimensions from header, data from .bin file'''
 import numpy as np
 
 def read_hdr(hdr): # read the image dimensions
@@ -14,4 +15,11 @@ def read_hdr(hdr): # read the image dimensions
     return [int(x) for x in [cols, rows, bands]] # string to int
 
 def read_float(fn): # read the raw binary file
-    return np.fromfile(fn, dtype = np.float32)
+    return np.fromfile(fn, dtype = np.float32) / 255. # put data in range [0, 1]
+
+'''pixel @ (row, col) = (i, j):
+npx = nrow * ncol # number of pixels in image
+red value: dat[          i * ncol + j]
+grn value: dat[    npx + i * ncol + j]
+blu value: dat[2 * npx + i * ncol + j]'''
+

@@ -21,14 +21,7 @@ my_text = [chars(48, 58) + '\n', # 0-9
 render(my_text, 'truth')
 
 cols, rows, bands = read_hdr('truth.hdr')
-
-'''pixel @ (row, col) = (i, j):
-npx = nrow * ncol # number of pixels in image
-red value: dat[          i * ncol + j]
-grn value: dat[    npx + i * ncol + j]
-blu value: dat[2 * npx + i * ncol + j]'''
-
-dat = read_float('truth.bin') / 255.
+dat = read_float('truth.bin') 
 
 def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     dat = dat.reshape((bands, rows * cols))

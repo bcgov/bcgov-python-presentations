@@ -153,12 +153,12 @@ for j in range(cols):
     flood(i, j)
 print("next_label", next_label)
 
-i = 840
+i = 838
 for j in range(cols):
     flood(i, j)
 print("next_label", next_label)
 
-i = 930
+i = 932
 for j in range(cols):
     flood(i, j)
 

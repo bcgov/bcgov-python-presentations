@@ -60,6 +60,7 @@ def parfor(my_func, my_in):
     return mp.Pool(mp.cpu_count()).map(my_func, my_in)
 
 def predict_i(pi): # for pi in range(len(test_points)):
+    print(test_files[pi])
     p = test_points[pi]
 
     # calculate the closest truth value
@@ -76,7 +77,10 @@ def predict_i(pi): # for pi in range(len(test_points)):
     print("min_i", min_i)
     prediction = truth_labels[min_i]
     # predictions.append([test_centroids[pi], prediction])
-    return([test_centroids[pi], prediction])
+    result = [test_centroids[pi], prediction]
+    print(result)
+    sys.exit(1)
+    return(result)
     print("point", pi, "of", len(test_points))
     '''
     plt.figure()
@@ -87,7 +91,7 @@ def predict_i(pi): # for pi in range(len(test_points)):
 
 print("truth_points", truth_points)
 
-use_parfor = True
+use_parfor = False
 if use_parfor:
     predictions = parfor(predict_i, range(len(test_points)))
 else:

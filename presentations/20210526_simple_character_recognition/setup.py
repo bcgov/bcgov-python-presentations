@@ -248,8 +248,7 @@ if not os.path.exists('Figure_6.png'):
 ci, test_points = 0, {} # point sets indexed by the character-type representation
 for point in points:
     if ci > 0:
-        print("ci", ci)
-        if True:
+        try:
             fn = 'test' + os.path.sep + str(ci) + '.png'
             if not os.path.exists(fn):
                 plt.figure()
@@ -261,7 +260,8 @@ for point in points:
 
             fn = 'test' + os.path.sep + str(ci) + '.centroid'  # record centroid for "reconstruction". Why? Glyphs not equal size. Faller glyphs come out first! 
             if not os.path.exists(fn):
-                cX, cY = centroid(to_list(point))
+                xL, yL = to_list(point)
+                cX, cY = centroid(xL, yL)
                 open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
                 
             point = normalize(point) # centroid adjustment, subtract average x,y coords
@@ -269,6 +269,6 @@ for point in points:
             fn = 'test' + os.path.sep + str(ci) + '.p'  # save the glyph's points, in pickle file to restore later
             if not os.path.exists(fn):
                 pickle.dump(point, open(fn, 'wb'))
-        # except:
-        #    pass  # don't plot / save the background
+        except:
+            pass  # don't plot / save the background
     ci += 1

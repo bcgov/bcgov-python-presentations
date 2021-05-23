@@ -5,38 +5,28 @@ import numpy as np
 from render import render # our LaTeX rendering function
 import matplotlib.pyplot as plt
 from dist import centroid, normalize
-from image import read_hdr, read_float
+from image import read_hdr, read_float, plot
 
-truth = [] # these are the characters we'd like to classify
+truth = [] # the characters we'd like to be able to match
 
-def chars(i, j):
+def chars(i, j):  # add chars between ascii codes i, j to truth data
     global truth
     my_chars = [chr(x) for x in range(i, j)]
     truth += my_chars
     return ' '.join(my_chars)
 
-render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # 0-9, a-z, A-Z
-       'truth')  # designate as truth data
+render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # render 0-9, a-z, A-Z in LaTeX
+       'truth')  # designate as truth
 
-cols, rows, bands = read_hdr('truth.hdr')
-dat = read_float('truth.bin') 
+cols, rows, bands = read_hdr('truth.hdr')  # read truth data image dimensions
+dat = read_float('truth.bin')  # read the actual data
 
-def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
-    dat = dat.reshape((bands, rows * cols))
-    rgb = np.zeros((rows, cols, bands))
-    for i in range(bands):
-        rgb[:, :, i] = dat[i, :].reshape((rows, cols))
-    plt.imshow(rgb)
-    # plt.show() # might need to turn this on to zoom into Figure one to determine line numbers..
-    plt.savefig(file_name)
-    plt.close()
-
-# figure1: need to zoom in to determine line numbers (y values) to pull truth data along..
+# figure1: need to zoom in to determine line numbers (y values) along which to segment
 if not os.path.exists('Figure_1.png'):
-    plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
+    plot(dat, rows, cols, bands, 'Figure_1.png')
 
 npx = rows * cols  # number of pixels
-rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]  # reformat data
+rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]  # reformat data into list of (r,g,b) tuples
 
 c = {} # count rgb values
 for x in rgb:
@@ -81,7 +71,6 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
 if sys.getrecursionlimit() < npx:  # increase recursion limit
     sys.setrecursionlimit(npx)
 
-
 # this doesn't work because the characters are different heights, this gets them out of order
 '''
 for i in range(rows):
@@ -89,34 +78,28 @@ for i in range(rows):
         flood(i, j)
 '''
 
-# start the segmentation
+# start the segmentation. Cut through the lines for 0-9, a-z, A-Z separately to catch them in order!
 i = 745
 for j in range(cols):
     flood(i, j)
-print("next_label", next_label)
 
 i = 838
 for j in range(cols):
     flood(i, j)
-print("next_label", next_label)
 
 i = 932
 for j in range(cols):
     flood(i, j)
 
-# print(labels)
-print("next_label", next_label)
-
-points = [[] for i in range(next_label)]
-
-for i in range(rows):  # gather points for each label
+points = [[] for i in range(next_label)]  # gather points for each label
+for i in range(rows):
     for j in range(cols):
         ix = i * cols + j # linear index
         if labels[ix] > 0: # skip background
             label = labels[ix] # label this point
             points[label] += [[i, j]]
 
-c = {}
+c = {}  # count the number of pixels per segment
 for point in points:
     n = len(point)
     c[n] = (c[n] + 1) if (n in c) else 1
@@ -142,34 +125,30 @@ for i in range(len(points)): # apply centroid adjust
 
 ci = 0
 truth_points = {} # index the point sets by the character type representation
-for point in points:
+for point in points:  # plot image rep. of each "truth" data character, in an appropriately labelled file
     if ci > 0:
         try:
             truth_label = truth[ci - 1]
             fn = 'truth' + os.path.sep + truth_label + '.png'
             if not os.path.exists(fn):
                 plt.figure()
-                plt.scatter([x[1] for x in point], [-x[0] for x in point])
-                truth_points[truth_label] = point
+                plt.scatter([x[1] for x in point], [-x[0] for x in point])  # scatter plot of within-segment (x,y) pixel coords
+                truth_points[truth_label] = point  # retain a lookup
                 plt.title(truth_label)
                 print('+w ' + fn)
                 plt.savefig(fn)
                 plt.close()
 
-            # save the points for this glyph, in a pickle file to restore later
-            fn = 'truth' + os.path.sep + truth_label + '.p'
+            fn = 'truth' + os.path.sep + truth_label + '.p'  # save (x,y) coords for this glyph, in pickle file to restore later
             if not os.path.exists(fn):
-                pickle.dump(point, open(fn, 'wb'))
-                
+                pickle.dump(point, open(fn, 'wb'))  # n.b. need to run cleanup.py to regenerate truth / test data
         except:
             pass
     ci += 1
 
 print(truth)
 
-'''
-try stuff on the test data!
-'''
+'''now try the same stuff on the test data!'''
 
 print("render test data..")
 '''render(["hello world"], 'test')
@@ -188,10 +167,10 @@ render(["Through three cheese trees\\ \\\\",
 
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
-dat = read_float('test.bin') / 255.
+dat = read_float('test.bin') 
 
 if not os.path.exists('Figure_4.png'):
-    plot(dat, rows, cols, bands, 'Figure_4.png') # Figure 1
+    plot(dat, rows, cols, bands, 'Figure_4.png') 
 
 npx = rows * cols
 rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]
@@ -270,21 +249,19 @@ for point in points:
                 plt.savefig(fn)
                 plt.close()
 
-            fn = 'test' + os.path.sep + str(ci) + '.centroid'
+            fn = 'test' + os.path.sep + str(ci) + '.centroid'  # record the centroid for "reconstruction"
             if not os.path.exists(fn):
                 cX, cY = centroid(point)
                 open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
                 
-            point = normalize(point) # centroid adjustment
+            point = normalize(point) # centroid adjustment, subtract average x,y coords
 
-            # save the points for this glyph, in a pickle file to restore later
-            fn = 'test' + os.path.sep + str(ci) + '.p'
+            fn = 'test' + os.path.sep + str(ci) + '.p'  # save the glyph's points, in pickle file to restore later
             if not os.path.exists(fn):
                 pickle.dump(point, open(fn, 'wb'))
         except:
             pass
     ci += 1
-
 
 # illustrate the centroid adjustment !!!!!! 
 # plot a figure with centroid adjustment, and one without!!!!!

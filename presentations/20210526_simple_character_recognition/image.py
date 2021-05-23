@@ -23,3 +23,11 @@ red value: dat[          i * ncol + j]
 grn value: dat[    npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
+def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
+    dat = dat.reshape((bands, rows * cols))
+    rgb = np.zeros((rows, cols, bands))
+    for i in range(bands): rgb[:, :, i] = dat[i, :].reshape((rows, cols))
+    plt.imshow(rgb)
+    # plt.show() # might need to turn this on to zoom into Figure one to determine line numbers..
+    plt.savefig(file_name)
+    plt.close()

@@ -74,6 +74,8 @@ def predict_i(pi): # for pi in range(len(test_points)):
         if d < min_d:
             min_d, min_i = d, i
 
+        if min_d == 0.: break  # found a match, stop comparing..
+
     print("min_i", min_i)
     prediction = truth_labels[min_i]
     # predictions.append([test_centroids[pi], prediction])
@@ -102,4 +104,5 @@ plt.figure()
 for p in predictions:
     plt.plot(p[0][1], -p[0][0])
     plt.text(p[0][1], -p[0][0], p[1])
+plt.show()
 plt.savefig("prediction.png")

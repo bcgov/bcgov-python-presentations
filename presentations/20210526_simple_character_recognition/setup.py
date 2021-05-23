@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 from dist import centroid, normalize
 from image import read_hdr, read_float, plot
 
+# untangle the data generation from the segmentation
+# untangle the plotting as well!
+
 truth = [] # the characters we'd like to be able to match
 
 def chars(i, j):  # add chars between ascii codes i, j to truth data
@@ -80,24 +83,25 @@ for i in range(rows):
 
 # start the segmentation. Cut through the lines for 0-9, a-z, A-Z separately to catch them in order!
 i = 745
-for j in range(cols):
-    flood(i, j)
+for j in range(cols): flood(i, j)
 
 i = 838
-for j in range(cols):
-    flood(i, j)
+for j in range(cols): flood(i, j)
 
 i = 932
-for j in range(cols):
-    flood(i, j)
+for j in range(cols): flood(i, j)
 
-points = [[] for i in range(next_label)]  # gather points for each label
-for i in range(rows):
-    for j in range(cols):
-        ix = i * cols + j # linear index
-        if labels[ix] > 0: # skip background
-            label = labels[ix] # label this point
-            points[label] += [[i, j]]
+def gather_points(labels, next_label, rows, cols):  # list the points for each label
+    points = [[] for i in range(next_label)]
+    for i in range(rows):
+        for j in range(cols):
+            ix = i * cols + j # linear index
+            if labels[ix] > 0: # skip background
+                label = labels[ix] # label this point
+                points[label] += [[i, j]]
+    return points
+
+points = gather_points(labels, next_label, rows, cols)
 
 c = {}  # count the number of pixels per segment
 for point in points:
@@ -203,6 +207,9 @@ for i in range(rows):
         flood(i, j)
 
 print("next_label", next_label)
+
+points = gather_points(labels, next_label, rows, cols)
+'''
 points = [[] for i in range(next_label)]
 
 # gather the points for each label
@@ -213,7 +220,7 @@ for i in range(rows):
         if labels[ix] > 0: # skip background
             label = labels[ix] # label this point
             points[label] += [[i, j]]
-
+'''
 c = {}
 for point in points:
     n = len(point)

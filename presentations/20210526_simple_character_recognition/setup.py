@@ -4,8 +4,8 @@ import pickle
 import numpy as np
 from render import render # our LaTeX rendering function
 import matplotlib.pyplot as plt
-from dist import centroid, normalize
 from image import read_hdr, read_float, plot
+from dist import centroid, normalize, to_list
 
 # untangle the data generation from the segmentation
 # untangle the plotting as well!
@@ -44,7 +44,7 @@ if not os.path.exists('Figure_2.png'):
     plt.savefig('Figure_2.png')
     plt.close()
 
-# assume dominant color is bg
+# assume dominant color is bg. Will ignore it in the floodfill
 max_count = 0
 max_color = None
 for k in c:
@@ -149,7 +149,7 @@ for point in points:  # plot image rep. of each "truth" data character, in an ap
             if not os.path.exists(fn):
                 pickle.dump(point, open(fn, 'wb'))  # n.b. need to run cleanup.py to regenerate truth / test data
         except:
-            pass
+            pass  # don't plot / save the background
     ci += 1
 
 print(truth)
@@ -248,7 +248,8 @@ if not os.path.exists('Figure_6.png'):
 ci, test_points = 0, {} # point sets indexed by the character-type representation
 for point in points:
     if ci > 0:
-        try:
+        print("ci", ci)
+        if True:
             fn = 'test' + os.path.sep + str(ci) + '.png'
             if not os.path.exists(fn):
                 plt.figure()
@@ -260,7 +261,7 @@ for point in points:
 
             fn = 'test' + os.path.sep + str(ci) + '.centroid'  # record centroid for "reconstruction". Why? Glyphs not equal size. Faller glyphs come out first! 
             if not os.path.exists(fn):
-                cX, cY = centroid(point)
+                cX, cY = centroid(to_list(point))
                 open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
                 
             point = normalize(point) # centroid adjustment, subtract average x,y coords
@@ -268,8 +269,6 @@ for point in points:
             fn = 'test' + os.path.sep + str(ci) + '.p'  # save the glyph's points, in pickle file to restore later
             if not os.path.exists(fn):
                 pickle.dump(point, open(fn, 'wb'))
-        except:
-            pass
+        # except:
+        #    pass  # don't plot / save the background
     ci += 1
-
-print("points", points)

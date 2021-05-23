@@ -79,7 +79,6 @@ def predict_i(pi): # for pi in range(len(test_points)):
     # predictions.append([test_centroids[pi], prediction])
     result = [test_centroids[pi], prediction]
     print(result)
-    sys.exit(1)
     return(result)
     print("point", pi, "of", len(test_points))
     '''
@@ -103,4 +102,4 @@ plt.figure()
 for p in predictions:
     plt.plot(p[0][1], -p[0][0])
     plt.text(p[0][1], -p[0][0], p[1])
-plt.show() # savefig("prediction.png")
+plt.savefig("prediction.png")

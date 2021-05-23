@@ -1,3 +1,4 @@
+# add argparse
 import os
 import sys
 import pickle
@@ -67,10 +68,12 @@ def predict_i(pi): # for pi in range(len(test_points)):
     for i in range(len(truth_points)):
         t = truth_points[i]
         d, arrows, subdist = dist(p, t)
+        print("rho", d, "i", i)
 
         if d < min_d:
             min_d, min_i = d, i
 
+    print("min_i", min_i)
     prediction = truth_labels[min_i]
     # predictions.append([test_centroids[pi], prediction])
     return([test_centroids[pi], prediction])
@@ -82,7 +85,13 @@ def predict_i(pi): # for pi in range(len(test_points)):
     plt.close()
     '''
 
-predictions = parfor(predict_i, range(len(test_points)))
+print("truth_points", truth_points)
+
+use_parfor = True
+if use_parfor:
+    predictions = parfor(predict_i, range(len(test_points)))
+else:
+    predictions = [predict_i(pi) for pi in range(len(test_points))]
 
 print("prediction", predictions) # plot distribution of distances, by character!!!!! 
 

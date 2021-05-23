@@ -41,7 +41,7 @@ def render(my_text, name):
             d = open(name + '.hdr').read() + 'band names = {red,\ngreen,\nblue}'
             open(name + '.hdr','wb').write(d.encode())
 
-render(my_text, 'train')
+render(my_text, 'truth')
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0
@@ -59,7 +59,7 @@ def read_hdr(hdr): # read the image dimensions
 def read_float(fn): # read the raw binary file
     return np.fromfile(fn, dtype = np.float32)
 
-cols, rows, bands = read_hdr('train.hdr')
+cols, rows, bands = read_hdr('truth.hdr')
 
 '''pixel @ (row, col) = (i, j):
 npx = nrow * ncol # number of pixels in image
@@ -67,7 +67,7 @@ red value: dat[          i * ncol + j]
 grn value: dat[    npx + i * ncol + j]
 blu value: dat[2 * npx + i * ncol + j]'''
 
-dat = read_float('train.bin') / 255.
+dat = read_float('truth.bin') / 255.
 
 def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     dat = dat.reshape((bands, rows * cols))
@@ -75,9 +75,11 @@ def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     for i in range(bands):
         rgb[:, :, i] = dat[i, :].reshape((rows, cols))
     plt.imshow(rgb)
+    # plt.show() # might need to turn this on to zoom into Figure one to determine line numbers..
     plt.savefig(file_name)
     plt.close()
 
+# figure1: need to zoom in to determine line numbers (y values) to pull truth data along..
 if not os.path.exists('Figure_1.png'):
     plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
 
@@ -146,17 +148,17 @@ for i in range(rows):
 '''
 
 # start the segmentation
-i = 450
+i = 745
 for j in range(cols):
     flood(i, j)
 print("next_label", next_label)
 
-i = 500
+i = 840
 for j in range(cols):
     flood(i, j)
 print("next_label", next_label)
 
-i = 560
+i = 930
 for j in range(cols):
     flood(i, j)
 

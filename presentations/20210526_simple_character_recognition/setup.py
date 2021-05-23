@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 from render import render # our LaTeX rendering function
 import matplotlib.pyplot as plt
+from dist import centroid, normalize
 from image import read_hdr, read_float
 
 truth = [] # these are the characters we'd like to classify
@@ -14,11 +15,8 @@ def chars(i, j):
     truth += my_chars
     return ' '.join(my_chars)
 
-my_text = [chars(48, 58) + '\n', # 0-9
-           chars(65, 91) + '\n', # A-Z
-           chars(97, 123)]       # a-z
-
-render(my_text, 'truth')
+render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # 0-9, a-z, A-Z
+       'truth')  # designate as truth data
 
 cols, rows, bands = read_hdr('truth.hdr')
 dat = read_float('truth.bin') 
@@ -37,22 +35,13 @@ def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
 if not os.path.exists('Figure_1.png'):
     plot(dat, rows, cols, bands, 'Figure_1.png') # Figure 1
 
-# basic color stats
-npx = rows * cols
-rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]
+npx = rows * cols  # number of pixels
+rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]  # reformat data
 
 c = {} # count rgb values
 for x in rgb:
     x = str(x)
     c[x] = c[x] + 1 if x in c else 1
-# print(c)
-
-'''
-{'[255.0, 255.0, 255.0]': 3732995,
- '[0.0, 0.0, 255.0]': 6951,
- '[0.0, 0.0, 0.0]': 54} 
-
-'''
 
 if not os.path.exists('Figure_2.png'):
     plt.figure()
@@ -61,8 +50,7 @@ if not os.path.exists('Figure_2.png'):
     plt.savefig('Figure_2.png')
     plt.close()
 
-# assume dominant color is background
-max_count = 0
+# assume dominant color is bg
 max_color = None
 for k in c:
     if c[k] > max_count:
@@ -121,18 +109,12 @@ print("next_label", next_label)
 
 points = [[] for i in range(next_label)]
 
-# gather the points for each label
-for i in range(rows):
-    # print(i, rows)
+for i in range(rows):  # gather points for each label
     for j in range(cols):
         ix = i * cols + j # linear index
         if labels[ix] > 0: # skip background
             label = labels[ix] # label this point
             points[label] += [[i, j]]
-
-
-# for point in points:
-#     print(len(point))
 
 c = {}
 for point in points:
@@ -155,23 +137,9 @@ if not os.path.exists('Figure_3.png'):
     plt.savefig('Figure_3.png')
     plt.close()
 
-# centroid adjustment
-
-def centroid(A):
-    X = [x[0] for x in A]
-    Y = [x[1] for x in A]
-    return [np.mean(X), np.mean(Y)]
-
-def normalize(A):
-    cX, cY = centroid(A)
-    X = [x[0] for x in A]
-    Y = [x[1] for x in A]
-    return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
-
-for i in range(len(points)): # apply centroid adjust # WRITE OUT IN MATH?
+for i in range(len(points)): # apply centroid adjust
     points[i] = normalize(points[i]) 
 
-# run("mkdir -p truth")
 ci = 0
 truth_points = {} # index the point sets by the character type representation
 for point in points:
@@ -289,9 +257,7 @@ if not os.path.exists('Figure_6.png'):
     plt.close()
 
 
-# run("mkdir -p test")
-ci = 0
-test_points = {} # index the point sets by the character type representation
+ci, test_points = 0, {} # point sets indexed by the character-type representation
 for point in points:
     if ci > 0:
         try:
@@ -299,7 +265,6 @@ for point in points:
             if not os.path.exists(fn):
                 plt.figure()
                 plt.scatter([x[1] for x in point], [-x[0] for x in point])
-                # truth_points[truth_label] = point
                 plt.title('test_' + str(ci)) # truth_label)
                 print('+w ' + fn)
                 plt.savefig(fn)

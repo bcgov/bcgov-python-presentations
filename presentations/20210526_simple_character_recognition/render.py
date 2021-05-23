@@ -1,6 +1,5 @@
 ''' render some text in latex, converting the typeset result to "raw binary" format..
 ..which can be read without a driver'''
-
 import os
 
 def run(c): # run something at terminal and wait to finish
@@ -27,6 +26,5 @@ def render(my_text, name):
         run('gdal_translate -of ENVI -ot Float32 ' + name + '.bmp ' + name + '.bin') # convert to raw binary
         
         if os.path.exists(name + '.hdr'):
-            # add band names
-            d = open(name + '.hdr').read() + 'band names = {red,\ngreen,\nblue}'
+            d = open(name + '.hdr').read() + 'band names = {red,\ngreen,\nblue}'  # add band names
             open(name + '.hdr','wb').write(d.encode())

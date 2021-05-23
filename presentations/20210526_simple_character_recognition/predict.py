@@ -91,7 +91,7 @@ def predict_i(pi): # for pi in range(len(test_points)):
 
 print("truth_points", truth_points)
 
-use_parfor = False
+use_parfor = True
 if use_parfor:
     predictions = parfor(predict_i, range(len(test_points)))
 else:

@@ -74,7 +74,7 @@ def predict_i(pi): # for pi in range(len(test_points)):
     prediction = truth_labels[min_i]
     # predictions.append([test_centroids[pi], prediction])
     return([test_centroids[pi], prediction])
-    # print("point", pi, "of", len(test_points))
+    print("point", pi, "of", len(test_points))
     '''
     plt.figure()
     # plot stuff in here to find out what's matched to what

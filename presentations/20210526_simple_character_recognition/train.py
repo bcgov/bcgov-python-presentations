@@ -248,7 +248,8 @@ try stuff on the test data!
 '''
 
 print("render test data..")
-
+render(["hello world"], 'test')
+'''
 render(["Through three cheese trees\\ \\\\",
         "three free fleas flew\\ \\\\",
         "While these fleas flew\\ \\\\",
@@ -260,7 +261,7 @@ render(["Through three cheese trees\\ \\\\",
         "Thats what made these\\ \\\\",
         "three free fleas sneeze\\ \\\\"],
         'test')
-
+'''
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') / 255.

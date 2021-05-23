@@ -2,26 +2,14 @@ import os
 import sys
 import pickle
 import numpy as np
-from render import render # our LaTeX rendering function
+from render import render # LaTeX rendering
 import matplotlib.pyplot as plt
 from image import read_hdr, read_float, plot
 from dist import centroid, normalize, to_list
 
 # untangle the data generation from the segmentation
 # untangle the plotting as well!
-
-truth = [] # the characters we'd like to be able to match
-
-def chars(i, j):  # add chars between ascii codes i, j to truth data
-    global truth
-    my_chars = [chr(x) for x in range(i, j)]
-    truth += my_chars
-    return ' '.join(my_chars)
-
-if not os.path.exists('truth.bin'):
-    render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # render 0-9, a-z, A-Z in LaTeX
-            'truth')  # designate as truth
-
+truth = [x for x in open('truth_chars.txt').read()]  # character repr. of truth data
 cols, rows, bands = read_hdr('truth.hdr')  # read truth data image dimensions
 dat = read_float('truth.bin')  # read the actual data
 

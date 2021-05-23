@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 from render import render # our LaTeX rendering function
 import matplotlib.pyplot as plt
+from image import read_hdr, read_float
 
 truth = [] # these are the characters we'd like to classify
 
@@ -18,22 +19,6 @@ my_text = [chars(48, 58) + '\n', # 0-9
            chars(97, 123)]       # a-z
 
 render(my_text, 'truth')
-
-def read_hdr(hdr): # read the image dimensions
-    cols, rows, bands = 0, 0, 0
-    for line in open(hdr).readlines():
-        chunks = line.strip().split('=')
-        try: # pull off two chunks delimited by '='
-            f, g = [x.strip() for x in chunks[0:2]]
-            if f == 'samples': cols = g
-            if f == 'lines': rows = g
-            if f == 'bands': bands = g
-        except:
-            pass
-    return [int(x) for x in [cols, rows, bands]] # string to int
-
-def read_float(fn): # read the raw binary file
-    return np.fromfile(fn, dtype = np.float32)
 
 cols, rows, bands = read_hdr('truth.hdr')
 

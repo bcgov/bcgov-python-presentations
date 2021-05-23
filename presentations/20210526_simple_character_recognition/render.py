@@ -1,3 +1,6 @@
+''' render some text in latex, converting the typeset result to "raw binary" format..
+..which can be read without a driver'''
+
 import os
 
 def run(c): # run something at terminal and wait to finish

@@ -1,5 +1,6 @@
 '''read ENVI/raw binary format. Dimensions from header, data from .bin file'''
 import numpy as np
+import matplotlib.pyplot as plt
 
 def read_hdr(hdr): # read the image dimensions
     cols, rows, bands = 0, 0, 0

@@ -23,13 +23,14 @@ my_text = [chars(48, 58) + '\n', # 0-9
 def render(my_text, name):
     # use "Computer Modern" font by Donald Knuth # insert Knuth quotes..
     open(name + '.tex', 'wb').write(('\n'.join(['\\documentclass{letter}',
+                                                '\\usepackage{lmodern}',
+                                                '\\usepackage[T1]{fontenc}',
                                                 '\\usepackage{xcolor}',
-                                                '\\usepackage{microtype}',
+                                                '\\usepackage[tracking=true, letterspace = 100]{microtype}',
                                                 '\\DisableLigatures{encoding = *, family = *}',
                                                 '\\begin{document}',
                                                 '\\color{blue}'] +
-                                                my_text + 
-                                                ['\\end{document}'])).encode())
+                                                ['\\textls{'] + my_text + ['}\n\\end{document}'])).encode())
 
     if not os.path.exists(name + '.bin'): # delete train.bin to start from new data
         run('pdflatex ' + name + '.tex') # render with LaTeX
@@ -250,7 +251,7 @@ try stuff on the test data!
 '''
 
 print("render test data..")
-render(["hello world"], 'test')
+'''render(["hello world"], 'test')
 '''
 render(["Through three cheese trees\\ \\\\",
         "three free fleas flew\\ \\\\",
@@ -263,7 +264,7 @@ render(["Through three cheese trees\\ \\\\",
         "Thats what made these\\ \\\\",
         "three free fleas sneeze\\ \\\\"],
         'test')
-'''
+
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
 dat = read_float('test.bin') / 255.
@@ -368,4 +369,4 @@ for point in points:
 
 
 # illustrate the centroid adjustment !!!!!! 
-
+# plot a figure with centroid adjustment, and one without!!!!!

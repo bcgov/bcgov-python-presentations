@@ -18,7 +18,7 @@ def files(path, ext): # get files with specified extension filename.ext
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb')) for f in files('truth', '.p')]
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '.p')]
 
-test_files =  files('test', '.p') # walk can mess up ordering? Walk once
+test_files =  files('test', '.p') # walk can mess up ordering if called on different extensions? Walk once
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in test_files]
 test_centroids = [[float(x) for x in open('test' + os.path.sep + f[:-2] + '.centroid', 'rb').read().strip().split()] for f in test_files]
 print("centroids", test_centroids)
@@ -44,8 +44,7 @@ def dist(X, Y):
             if d > 0:
                 arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]]) # record the stuff on the distance
                 subdist.append(d)
-        if i_f_n * j_f_n == 0:
-            break # ran out of slots for X or Y: stop comparing..
+        if i_f_n * j_f_n == 0: break # ran out of slots for X or Y: stop comparing..
 
     rho /= min(float(len(x1)), float(len(x2))) # divide by number of slots
     return rho, arrows, subdist
@@ -71,11 +70,11 @@ def predict_i(pi): # for pi in range(len(test_points)):
         if d < min_d:
             min_d, min_i = d, i
 
-        if min_d == 0.: break  # found a match, stop comparing..
+        if min_d == 0.:
+            break  # found a match, stop comparing..
 
     print("min_i", min_i)
     prediction = truth_labels[min_i]
-    # predictions.append([test_centroids[pi], prediction])
     result = [test_centroids[pi], prediction]
     print(result)
     return(result)

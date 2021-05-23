@@ -1,3 +1,4 @@
+'''cleanup intermediary files '''
 import os
 
 def run(c): # run something at terminal and wait to finish

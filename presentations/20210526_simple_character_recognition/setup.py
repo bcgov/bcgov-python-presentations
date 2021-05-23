@@ -44,6 +44,7 @@ if not os.path.exists('Figure_2.png'):
     plt.close()
 
 # assume dominant color is bg
+max_count = 0
 max_color = None
 for k in c:
     if c[k] > max_count:

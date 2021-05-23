@@ -21,12 +21,9 @@ truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in files('truth', '
 test_files =  files('test', '.p') # walk can mess up ordering? Walk once
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb')) for f in test_files]
 test_centroids = [[float(x) for x in open('test' + os.path.sep + f[:-2] + '.centroid', 'rb').read().strip().split()] for f in test_files]
-
 print("centroids", test_centroids)
-'''[[450.62068965517244, 423.4396551724138], [450.0, 502.820987654321], [451.70103092783506, 379.7938144329897], [450.62068965517244, 466.4396551724138], [452.8125, 449.3392857142857], [451.1517857142857, 395.08035714285717], [452.1132075471698, 478.39622641509436], [450.17021276595744, 488.36170212765956], [450.17021276595744, 405.36170212765956], [450.17021276595744, 413.36170212765956], [2014.9074074074074, 849.1111111111111]] '''
 
-# reformat the data
-truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points]
+truth_points = [[[x[0] for x in X], [x[1] for x in X]] for X in truth_points] # reformat the data
 test_points = [[[x[0] for x in X], [x[1] for x in X]] for X in test_points]
 
 truth_points_by_char = {truth_labels[i]: truth_points[i] for i in range(len(truth_points))}
@@ -37,7 +34,7 @@ def dist(X, Y):
     subdist, arrows = [], []
     i_f = [False for i in range(len(x1))]
     j_f = [False for i in range(len(x2))] # slots for each element's inclusion in traffic plan
-    dm = [[abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j] for i in range(0, len(x1)) for j in range(0, len(x2))]
+    dm = [[abs(x1[i] - x2[j]) + abs(y1[i] - y2[j]), i, j] for i in range(len(x1)) for j in range(len(x2))]
     dm.sort() # sort the matrix
 
     for k in range(0, len(dm)): # dmat elements
@@ -83,12 +80,6 @@ def predict_i(pi): # for pi in range(len(test_points)):
     print(result)
     return(result)
     print("point", pi, "of", len(test_points))
-    '''
-    plt.figure()
-    # plot stuff in here to find out what's matched to what
-    plt.savefig('match_' + str(pi) +'.png')
-    plt.close()
-    '''
 
 print("truth_points", truth_points)
 
@@ -106,3 +97,6 @@ for p in predictions:
     plt.text(p[0][1], -p[0][0], p[1])
 plt.show()
 plt.savefig("prediction.png")
+
+
+# CHARACTER - IZE / EYES!!!

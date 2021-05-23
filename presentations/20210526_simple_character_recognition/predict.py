@@ -38,7 +38,8 @@ def parfor(my_func, my_in): # parallel for loop
     return mp.Pool(mp.cpu_count()).map(my_func, my_in)
 
 def predict_i(pi): # for pi in range(len(test_points)):
-    print(test_files[pi])
+    print("predict_i", pi)
+    # print(test_files[pi])
     p = test_points[pi]
 
     min_d, min_i = sys.float_info.max, None  # distance and index of closest truth value
@@ -77,6 +78,3 @@ for p in predictions:
     plt.text(p[0][1], -p[0][0], p[1])
 plt.show()
 plt.savefig("prediction.png")
-
-
-# CHARACTER - IZE / EYES!!!

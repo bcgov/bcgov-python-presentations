@@ -18,8 +18,9 @@ def chars(i, j):  # add chars between ascii codes i, j to truth data
     truth += my_chars
     return ' '.join(my_chars)
 
-render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # render 0-9, a-z, A-Z in LaTeX
-       'truth')  # designate as truth
+if not os.path.exists('truth.bin'):
+    render([chars(48, 58) + '\n', chars(65, 91) + '\n', chars(97, 123)],  # render 0-9, a-z, A-Z in LaTeX
+            'truth')  # designate as truth
 
 cols, rows, bands = read_hdr('truth.hdr')  # read truth data image dimensions
 dat = read_float('truth.bin')  # read the actual data
@@ -158,17 +159,18 @@ print(truth)
 print("render test data..")
 '''render(["hello world"], 'test')
 '''
-render(["Through three cheese trees\\ \\\\",
-        "three free fleas flew\\ \\\\",
-        "While these fleas flew\\ \\\\",
-        "freezy breeze blew\\ \\\\", 
-        "Freezy breeze made\\ \\\\", 
-        "these three trees freeze\\ \\\\",
-        "Freezy trees made\\ \\\\",
-        "these trees cheese freeze\\ \\\\",
-        "Thats what made these\\ \\\\",
-        "three free fleas sneeze\\ \\\\"],
-        'test')
+if not os.path.exists('test.bin'):
+    render(["Through three cheese trees\\ \\\\",
+            "three free fleas flew\\ \\\\",
+            "While these fleas flew\\ \\\\",
+            "freezy breeze blew\\ \\\\", 
+            "Freezy breeze made\\ \\\\", 
+            "these three trees freeze\\ \\\\",
+            "Freezy trees made\\ \\\\",
+            "these trees cheese freeze\\ \\\\",
+            "Thats what made these\\ \\\\",
+            "three free fleas sneeze\\ \\\\"],
+            'test')
 
 print("read test data..")
 cols, rows, bands = read_hdr('test.hdr')
@@ -269,3 +271,5 @@ for point in points:
         except:
             pass
     ci += 1
+
+print("points", points)

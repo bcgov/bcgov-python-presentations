@@ -11,13 +11,12 @@ from dist import centroid, normalize, to_list
 # untangle the plotting as well!
 truth = [x for x in open('truth_chars.txt').read()]  # character repr. of truth data
 cols, rows, bands = read_hdr('truth.hdr')  # read truth data image dimensions
-dat = read_float('truth.bin')  # read the actual data
+dat, npx = read_float('truth.bin'), rows * cols  # read the actual data
 
 # figure1: need to zoom in to determine line numbers (y values) along which to segment
 if not os.path.exists('Figure_1.png'):
     plot(dat, rows, cols, bands, 'Figure_1.png')
 
-npx = rows * cols  # number of pixels
 rgb = [[dat[i], dat[npx + i], dat[2 * npx + i]] for i in range(0, npx)]  # reformat data into list of (r,g,b) tuples
 
 c = {} # count rgb values
@@ -46,7 +45,7 @@ def flood(i, j, my_label = None, my_color = None): # flood-fill segmentation
     global labels, next_label, rgb 
     ix = i * cols + j # linear index of (i, j) 
     if labels[ix] > 0: return # stop: already labelled
-    if str(rgb[ix]) == max_color: return # stop: ignore background
+    if str(rgb[ix]) == max_color: return # stop: ignore background "background subtraction"
     if i > rows or j > cols or i < 0 or j < 0: return  # stop: out of bounds
     if my_color and my_color != str(rgb[ix]): return # stop: different colour than at invocation chain start
  
@@ -118,7 +117,7 @@ for i in range(len(points)): # apply centroid adjust
     points[i] = normalize(points[i]) 
 
 ci = 0
-truth_points = {} # index the point sets by the character type representation
+# truth_points = {} # index the point sets by the character type representation
 for point in points:  # plot image rep. of each "truth" data character, in an appropriately labelled file
     if ci > 0:
         try:
@@ -127,7 +126,7 @@ for point in points:  # plot image rep. of each "truth" data character, in an ap
             if not os.path.exists(fn):
                 plt.figure()
                 plt.scatter([x[1] for x in point], [-x[0] for x in point])  # scatter plot of within-segment (x,y) pixel coords
-                truth_points[truth_label] = point  # retain a lookup
+                # truth_points[truth_label] = point  # retain a lookup
                 plt.title(truth_label)
                 print('+w ' + fn)
                 plt.savefig(fn)

@@ -3,7 +3,7 @@ import os
 import sys
 import numpy as np
 from flood import flood
-from dist import normalize
+from dist import normalize, to_list, centroid
 import matplotlib.pyplot as plt
 
 def read_hdr(hdr): # read the image dimensions
@@ -41,7 +41,7 @@ class image:
     def __init__(self, fn = None):
         if fn:
             self.fn = fn
-            load(fn)
+            self.load(fn)
     
     def load(self, fn = None):
             self.cols, self.rows, self.bands = read_hdr(fn[:-4] + '.hdr')  # read the dims
@@ -117,21 +117,17 @@ class image:
             for i in r_i:
                 for j in range(self.cols):
                     flood(self, i, j)
-
             self.gather_points()  # list (i,j) points by segment
 
-            if use_normalize:
-                for i in range(len(self.points)): # apply centroid adjust
-                    self.points[i] = normalize(self.points[i]) 
-
-            ci, fn = 0, None
+            fn = None
             is_truth = self.name == 'truth' # is this truth data?
             truth = [x for x in open('truth_chars.txt').read()] if is_truth else None # character repr. of truth data
 
-            for point in self.points:  # plot image rep. of each "truth" data character, in an appropriately labelled file
-                if ci > 0:
+            for pi in range(len(self.points)):  # plot image rep. of each "truth" data character, in an appropriately labelled file
+                point = self.points[pi]
+                if pi > 0: # 0 is bg
                     try:
-                        ns = truth[ci - 1] if is_truth else str(ci)
+                        ns = truth[pi - 1] if is_truth else str(pi)
                         fn = self.name + os.path.sep + ns + '.png'
                         if not os.path.exists(fn):
                             plt.figure()
@@ -145,27 +141,39 @@ class image:
                             plt.ylabel('-row ix')
                             plt.savefig(fn)
                             plt.close()
+
+                        fn = self.name + os.path.sep + ns + '.centroid'
+                        print(fn)
+                        if not os.path.exists(fn):
+                            xL, yL = to_list(point)
+                            cX, cY = centroid(xL, yL)
+                            open(fn, 'wb').write((str(cX) + ' ' + str(cY)).encode())
+
+                        if use_normalize:
+                            self.points[pi] = normalize(self.points[pi]) 
+
                         fn = self.name + os.path.sep + ns + '.p'  # save (x,y) coords for this glyph, in pickle file to restore later
                         if not os.path.exists(fn):
                             pickle.dump(point, open(fn, 'wb'))  # n.b. need to run cleanup.py to regenerate truth / test data
                     except:
                         pass  # don't plot / save the background
-                ci += 1
 
 if __name__ == "__main__":  # example image data to demonstrate floodfill
-    dat = [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
-           0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
-           0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0]
+    args = sys.argv
+
+    if len(args) < 2:
+
+        dat = [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
+               0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
+               0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0]
     
-    rows, cols, bands = 4, 4, 3
+        a = image()
+        a.dat, a.rows, a.cols, a.bands = dat, 4, 4, 3
+        a.npx = a.rows * a.cols
+        a.fn = '4x4.bin'
+        a.png()
+        a.segment(use_normalize=False)
 
-    a = image()
-    a.dat = dat
-    a.rows, a.cols, a.bands = rows, cols, bands
-    a.npx = rows * cols
-    a.fn = '4x4.bin'
-    a.png()
-
-    a.segment([0], use_normalize=False)
-
-    # plot(np.array(dat), rows, cols, bands, '4x4.png')  # use this to demonstrate floodfill
+    else:
+        a = image('truth.bin')
+        a.segment()

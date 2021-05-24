@@ -32,3 +32,11 @@ def plot(dat, rows, cols, bands, file_name): # plot a "raw binary" format image
     # plt.show() # might need to turn this on to zoom into Figure one to determine line numbers..
     plt.savefig(file_name)
     plt.close()
+
+
+if __name__ == "__main__":
+    dat = [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
+           0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
+           0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0]
+    rows, cols, bands = 4, 4, 3
+    plot(np.array(dat), rows, cols, bands, '4x4.png')

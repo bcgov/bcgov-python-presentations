@@ -14,11 +14,11 @@ def render(my_text, name):
                                                 '\\usepackage{lmodern}',
                                                 '\\usepackage[T1]{fontenc}',
                                                 '\\usepackage{xcolor}',
-                                                '\\usepackage[tracking=true, letterspace = 100]{microtype}',
+                                                '\\usepackage[tracking=true, letterspace = 100]{microtype}',  # bigger spacing
                                                 '\\DisableLigatures{encoding = *, family = *}',
-                                                '\\pagenumbering{gobble}',
+                                                '\\pagenumbering{gobble}',  # no page numbering
                                                 '\\begin{document}',
-                                                '\\color{blue}'] +
+                                                '\\color{blue}'] +  # blue text
                                                 ['\\textls{'] + my_text + ['}\n\\end{document}'])).encode())
 
     if not os.path.exists(name + '.bin'): # delete train.bin to start from new data

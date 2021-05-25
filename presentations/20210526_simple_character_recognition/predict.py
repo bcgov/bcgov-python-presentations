@@ -64,7 +64,8 @@ def predict_i(pi):  # for pi in range(len(test_points)):
         d, arrows, subdist = dist(p, t)
         print("rho", d, "i", i)
         
-        # dist_plot(p, t, d, arrows, subdist, pi, i)
+        if pi == 0:
+            dist_plot(p, t, d, arrows, subdist, pi, i)
 
         if d < min_d:  # found a better match
             min_d, min_i = d, i

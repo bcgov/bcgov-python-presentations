@@ -72,8 +72,8 @@ def dist_plot(X, Y, d, arrows, subdist, i, j):
     plt.scatter(y2, -np.array(x2), color='g')
     # plt.scatter(ax, ay, color='r')
     plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
-    plt.show()
-    # plt.savefig('dist_' + str(i) + "_" + str(j) + "_.png")
+    # plt.show()
+    plt.savefig('dist_' + str(i) + "_" + str(j) + "_.png")
     plt.close()
 
 

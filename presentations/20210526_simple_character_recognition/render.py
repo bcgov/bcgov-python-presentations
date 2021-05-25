@@ -50,8 +50,8 @@ if __name__ == "__main__":
 
     if not os.path.exists('test.bin'):
         print("render test data..")
-        render(["hello world"], 'test')
-        '''
+        # render(["hello world"], 'test')
+        
         render(["Through three cheese trees\\ \\\\",
                 "three free fleas flew\\ \\\\",
                 "While these fleas flew\\ \\\\",
@@ -62,4 +62,4 @@ if __name__ == "__main__":
                 "these trees cheese freeze\\ \\\\",
                 "Thats what made these\\ \\\\",
                 "three free fleas sneeze\\ \\\\"],
-                'test')'''
+                'test')

@@ -1,7 +1,7 @@
 # Simple character recognition
 * based on Earth-mover type distance
 
-<img src="fig/table.png">
+<img src="fig/table.png" width=500px>
 
 # How to run
 To generate the truth and test data:

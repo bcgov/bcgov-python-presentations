@@ -19,7 +19,7 @@ def read_hdr(hdr):  # read the image dimensions
                 rows = g
             if f == 'bands':
                 bands = g
-        except Exception e:
+        except:
             pass
     return [int(x) for x in [cols, rows, bands]]  # string to int
 
@@ -158,7 +158,6 @@ class image:
                         plt.close()
 
                     fn = self.name + os.path.sep + ns + '.centroid'
-                    print(fn)
                     if not os.path.exists(fn):
                         xL, yL = to_list(point)
                         cX, cY = centroid(xL, yL)
@@ -172,7 +171,7 @@ class image:
                     fn = self.name + os.path.sep + ns + '.p'
                     if not os.path.exists(fn):
                         pickle.dump(point, open(fn, 'wb'))
-                except Exception e:
+                except:
                     pass  # don't plot / save the background
 
 

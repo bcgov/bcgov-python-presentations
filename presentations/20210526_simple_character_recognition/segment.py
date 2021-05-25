@@ -4,8 +4,15 @@ import pickle
 import numpy as np
 from render import render # LaTeX rendering
 import matplotlib.pyplot as plt
-from image import read_hdr, read_float, plot # image reader, no deps
+from image import image # read_hdr, read_float, plot # image reader, no deps
 from dist import centroid, normalize, to_list
+
+
+truth = image('truth.bin')
+truth.segment([745, 838, 932])
+
+
+sys.exit(1)
 
 # untangle the data generation from the segmentation
 # untangle the plotting as well!

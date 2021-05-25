@@ -140,7 +140,12 @@ class image:
             truth = [x for x in open('truth_chars.txt').read()]
 
         for pi in range(len(self.points)):  # plot image rep. of each truth
+
+            if use_normalize:
+                self.points[pi] = normalize(self.points[pi])
+            
             point = self.points[pi]
+
             if pi > 0:  # 0 is bg / unlabelled
                 try:
                     ns = truth[pi - 1] if is_truth else str(pi)
@@ -166,9 +171,6 @@ class image:
                         cX, cY = centroid(xL, yL)
                         open(fn, 'wb').write((str(cX) + ' ' +
                                               str(cY)).encode())
-
-                    if use_normalize:
-                        self.points[pi] = normalize(self.points[pi])
 
                     # nb run cleanup.py before changing truth inputs
                     fn = self.name + os.path.sep + ns + '.p'

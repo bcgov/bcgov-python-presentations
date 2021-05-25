@@ -5,7 +5,7 @@ import numpy as np
 from os import walk
 import multiprocessing as mp
 import matplotlib.pyplot as plt
-from dist import dist  # our distance
+from dist import dist, dist_plot  # our distance
 
 
 def files(path, ext):  # get files with specified ext
@@ -19,13 +19,10 @@ def files(path, ext):  # get files with specified ext
 
 truth_files = files('truth', '.p')  # load truth data
 truth_labels = [f.split(os.path.sep)[-1].split('.')[0] for f in truth_files]
-
 truth_points = [pickle.load(open('truth' + os.path.sep + f, 'rb'))
                 for f in truth_files]
 
-# load test data. Walk once to preserve ordering
-test_files = files('test', '.p')
-
+test_files = files('test', '.p')  # load test data
 test_points = [pickle.load(open('test' + os.path.sep + f, 'rb'))
                for f in test_files]
 
@@ -66,6 +63,7 @@ def predict_i(pi):  # for pi in range(len(test_points)):
         t = truth_points[i]
         d, arrows, subdist = dist(p, t)
         print("rho", d, "i", i)
+        dist_plot(p, t, d, arrows, subdist, pi, i)
 
         if d < min_d:  # found a better match
             min_d, min_i = d, i
@@ -81,9 +79,10 @@ def predict_i(pi):  # for pi in range(len(test_points)):
     print("point", pi, "of", len(test_points))
 
 
+
 print("truth_points", truth_points)
 
-use_parfor = True
+use_parfor = False
 if use_parfor:
     predictions = parfor(predict_i, range(len(test_points)))
 else:
@@ -97,3 +96,5 @@ for p in predictions:
     plt.text(p[0][1], -p[0][0], p[1])
 plt.show()
 plt.savefig("prediction.png")
+
+print("truth_labels", truth_labels)

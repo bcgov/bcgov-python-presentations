@@ -1,6 +1,6 @@
 '''quasi earth-mover distance'''
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def to_list(A):  # convert list of [x,y] points to separate lists for x, y
     return [[x[0] for x in A], [x[1] for x in A]]
@@ -47,5 +47,33 @@ def dist(X, Y):
         if i_n * j_n == 0:
             break  # ran out of slots for X or Y: stop comparing..
 
-    rho /= len(arrows)  # divide by the number of slots
+    rho /= min(float(len(x1)), float(len(x2)))  # divide by the number of slots
     return rho, arrows, subdist
+
+
+def dist_plot(X, Y, d, arrows, subdist, i, j):
+    [x1, y1], [x2, y2] = X, Y
+    ax, ay, au, av = [], [], [], []
+    for a in arrows:
+        [sx, sy], [ex, ey] = a # start x,y, end x,y
+        ax += [sx]  # arrow starting position
+        ay += [sy]
+        au += [ex - sx] # arrow delta (flip the direction cuz the direction changes later)
+        av += [ey - sy]
+
+    plt.figure()
+    plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
+    plt.scatter(y2, -np.array(x2), color='g')
+    plt.savefig(str(i) + "_" + str(j) + ".png")
+
+    plt.figure()
+    plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
+    plt.scatter(y2, -np.array(x2), color='g')
+    # plt.scatter(ax, ay, color='r')
+    plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
+    plt.show()
+    # plt.savefig('dist_' + str(i) + "_" + str(j) + "_.png")
+    plt.close()
+
+
+'''put in a command line plot here to calculate distances between things (put the diagrams on for this case.. but not the predict case'''

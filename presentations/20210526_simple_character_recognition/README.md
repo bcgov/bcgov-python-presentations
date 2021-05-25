@@ -1,5 +1,12 @@
 # Simple character recognition
-* based on Earth-mover type distance
+Based on Earth-mover type distance.
+
+1) Flood-fill segmentation
+* most-prevalent color assumed to be "background" to be ignored
+* characters to be classified are assumed to be of uniform color
+
+2) Wasserstein "earth-mover" type distance
+* some robustness to noise or transformation offered, relative to truth data
 
 <img src="fig/table.png" width="444px">
 

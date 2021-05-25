@@ -1,4 +1,4 @@
-# generate the table of quivers shown in table.html
+''' we used this to generate the table of quivers shown in table.html'''
 import os
 import sys
 import pickle
@@ -80,10 +80,8 @@ for pi in range(len(X_array)):
         plt.scatter(y2, -np.array(x2), color='g')
         plt.savefig(str(pi) + "_" + str(i) + ".png")
 
-
         plt.figure()
         plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
         plt.scatter(y2, -np.array(x2), color='g')
-        # plt.scatter(ax, ay, color='r')
-        plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
+        plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.)
         plt.savefig(str(pi) + "_" + str(i) + "_.png")

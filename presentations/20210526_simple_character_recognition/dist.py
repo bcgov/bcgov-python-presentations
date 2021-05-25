@@ -11,10 +11,11 @@ def centroid(X, Y):  # mean of x, y coordinate lists..
 
 
 def normalize(A):  # normalize a list of [x,y] points.. subtract centroid
-    X, Y = to_list(A)
+    # X, Y = to_list(A)
+    X, Y, = A
     cX, cY = centroid(X, Y)
-    return [[X[i] - cX, Y[i] - cY] for i in range(len(A))]
-
+    # return [[X[i] - cX, Y[i] - cY] for i in range(len(X))] # A))]
+    return [X[i] - cX for i in range(len(X))], [Y[i] - cY for i in range(len(Y))]
 
 def dist(X, Y):
     rho, [x1, y1], [x2, y2] = 0, X, Y  # compare two point-sets
@@ -61,10 +62,11 @@ def dist_plot(X, Y, d, arrows, subdist, i, j):
         au += [ex - sx] # arrow delta (flip the direction cuz the direction changes later)
         av += [ey - sy]
 
-    plt.figure()
-    plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
-    plt.scatter(y2, -np.array(x2), color='g')
-    plt.savefig(str(i) + "_" + str(j) + ".png")
+    if False:
+        plt.figure()
+        plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
+        plt.scatter(y2, -np.array(x2), color='g')
+        plt.savefig(str(i) + "_" + str(j) + ".png")
 
     plt.figure()
     plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]

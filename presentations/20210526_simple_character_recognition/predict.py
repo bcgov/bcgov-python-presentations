@@ -5,7 +5,7 @@ import numpy as np
 from os import walk
 import multiprocessing as mp
 import matplotlib.pyplot as plt
-from dist import dist, dist_plot  # our distance
+from dist import dist, dist_plot, normalize  # our distance
 
 
 def files(path, ext):  # get files with specified ext
@@ -55,15 +55,16 @@ def parfor(my_func, my_in):  # parallel for loop
 def predict_i(pi):  # for pi in range(len(test_points)):
     print("predict_i", pi)
     # print(test_files[pi])
-    p = test_points[pi]
+    p = normalize(test_points[pi])  # didn't normalize before to get absolute centroid
 
     min_d, min_i = sys.float_info.max, None  # closest truth value
 
     for i in range(len(truth_points)):
-        t = truth_points[i]
+        t = normalize(truth_points[i])
         d, arrows, subdist = dist(p, t)
         print("rho", d, "i", i)
-        dist_plot(p, t, d, arrows, subdist, pi, i)
+        
+        # dist_plot(p, t, d, arrows, subdist, pi, i)
 
         if d < min_d:  # found a better match
             min_d, min_i = d, i
@@ -82,7 +83,7 @@ def predict_i(pi):  # for pi in range(len(test_points)):
 
 print("truth_points", truth_points)
 
-use_parfor = False
+use_parfor = True
 if use_parfor:
     predictions = parfor(predict_i, range(len(test_points)))
 else:

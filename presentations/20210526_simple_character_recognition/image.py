@@ -141,9 +141,6 @@ class image:
 
         for pi in range(len(self.points)):  # plot image rep. of each truth
 
-            if use_normalize:
-                self.points[pi] = normalize(self.points[pi])
-            
             point = self.points[pi]
 
             if pi > 0:  # 0 is bg / unlabelled

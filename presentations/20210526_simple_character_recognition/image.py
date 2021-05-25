@@ -53,9 +53,9 @@ class image:
             self.fn = fn
             self.load(fn)
 
-    def load(self, fn=None):
-        self.cols, self.rows, self.bands = read_hdr(fn[:-4] + '.hdr')
-        self.dat, self.npx = read_float('truth.bin'), self.rows * self.cols
+    def load(self):
+        self.cols, self.rows, self.bands = read_hdr(self.fn[:-4] + '.hdr')
+        self.dat, self.npx = read_float(self.fn), self.rows * self.cols
 
     def png(self):
         if type(self.dat) == list:
@@ -95,6 +95,7 @@ class image:
             plt.close()
 
     def segment(self, flood_lines=None, use_normalize=True):
+        print('segment ' + self.fn)
         self.name = self.fn[:-4]
         a = os.system('mkdir -p ' + self.name)
         self.rgb = [[self.dat[i],  # format data into list of rgb tuples
@@ -133,7 +134,7 @@ class image:
         self.gather_points()  # list (i,j) points by segment
 
         fn = None
-        is_truth = self.name == 'truth'  # is this truth data?
+        is_truth = (self.name == 'truth')  # is this truth data?
         truth = None
         if is_truth:
             truth = [x for x in open('truth_chars.txt').read()]
@@ -195,5 +196,5 @@ if __name__ == "__main__":  # example image data to demonstrate floodfill
         a.segment(use_normalize=False)
 
     else:
-        a = image('truth.bin')
+        a = image('truth.bin', [745, 838, 932])
         a.segment()

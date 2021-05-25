@@ -94,7 +94,7 @@ class image:
             plt.savefig(ffn)
             plt.close()
 
-    def segment(self, flood_lines=None, use_normalize=True):
+    def segment(self, flood_lines=None):
         print('segment ' + self.fn)
         self.name = self.fn[:-4]
         a = os.system('mkdir -p ' + self.name)

@@ -10,12 +10,10 @@ def centroid(X, Y):  # mean of x, y coordinate lists..
     return [np.mean(X), np.mean(Y)]
 
 
-def normalize(A):  # normalize a list of [x,y] points.. subtract centroid
-    # X, Y = to_list(A)
-    X, Y, = A
-    cX, cY = centroid(X, Y)
-    # return [[X[i] - cX, Y[i] - cY] for i in range(len(X))] # A))]
-    return [X[i] - cX for i in range(len(X))], [Y[i] - cY for i in range(len(Y))]
+def normalize(A):  # subtract centroid
+    X, Y = A
+    cX, cY, I = centroid(X, Y), range(len(X))
+    return [X[i] - cX for i in I], [Y[i] - cY for i in I]
 
 def dist(X, Y):
     rho, [x1, y1], [x2, y2] = 0, X, Y  # compare two point-sets

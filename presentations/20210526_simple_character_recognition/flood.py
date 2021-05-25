@@ -1,4 +1,5 @@
-def flood(img, i, j, my_label=None, my_color=None):  # flood-fill segmentation
+'''flood fill segmentation'''
+def flood(img, i, j, my_label=None, my_color=None):
     if i >= img.rows or j >= img.cols or i < 0 or j < 0:
         return  # out of bounds
     ix = i * img.cols + j  # linear index of (i, j)

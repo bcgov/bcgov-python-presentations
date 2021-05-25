@@ -12,7 +12,8 @@ def centroid(X, Y):  # mean of x, y coordinate lists..
 
 def normalize(A):  # subtract centroid
     X, Y = A
-    cX, cY, I = centroid(X, Y), range(len(X))
+    I = range(len(X))
+    cX, cY = centroid(X, Y)
     return [X[i] - cX for i in I], [Y[i] - cY for i in I]
 
 def dist(X, Y):

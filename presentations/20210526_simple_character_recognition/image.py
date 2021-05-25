@@ -94,7 +94,7 @@ class image:
             plt.savefig(ffn)
             plt.close()
 
-    def segment(self, flood_lines=None):
+    def segment(self, flood_lines=None, use_normalize=False):
         print('segment ' + self.fn)
         self.name = self.fn[:-4]
         a = os.system('mkdir -p ' + self.name)
@@ -153,7 +153,7 @@ class image:
                                     [-x[0] for x in point])
                         plt.title(ns)
                         print('+w ' + fn)
-                        if not use_normalize:
+                        if use_normalize:
                             plt.xlim([-.5, self.cols - .5])
                             plt.ylim([-(self.rows - .5), .5])
                         plt.xlabel('col ix')

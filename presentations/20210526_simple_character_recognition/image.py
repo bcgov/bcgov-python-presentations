@@ -1,4 +1,6 @@
-'''read ENVI/raw binary format. Dimensions from header, data from .bin file'''
+'''read ENVI/raw binary format. Dimensions from header, data from .bin file..
+
+..then segment image using flood-fill segmentation'''
 import os
 import sys
 import pickle

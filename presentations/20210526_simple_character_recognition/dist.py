@@ -35,10 +35,10 @@ def dist(X, Y):
 
             # add term to distance and close the slots
             i_f[i], i_n, j_f[j], j_n, rho = [True,
-                                                 i_n - 1,
-                                                 True,
-                                                 j_n - 1,
-                                                 rho + d]
+                                             i_n - 1,
+                                             True,
+                                             j_n - 1,
+                                             rho + d]
 
             if d > 0:  # record stuff for visualization
                 arrows.append([[x1[i], y1[i]], [x2[j], y2[j]]])

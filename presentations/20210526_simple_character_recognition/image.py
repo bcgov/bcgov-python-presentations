@@ -51,7 +51,7 @@ class image:
     def __init__(self, fn=None):
         if fn:
             self.fn = fn
-            self.load(fn)
+            self.load()
 
     def load(self):
         self.cols, self.rows, self.bands = read_hdr(self.fn[:-4] + '.hdr')

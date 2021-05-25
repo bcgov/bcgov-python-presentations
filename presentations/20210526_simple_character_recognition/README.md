@@ -1,3 +1,9 @@
+# Simple character recognition
+* based on Earth-mover type distance
+
+<img src="fig/table.png">
+
+# How to run
 To generate the truth and test data:
 
 ```
@@ -15,6 +21,5 @@ To make a prediction on the test data:
 ```
 python3 predict.py
 ```
-
 
 

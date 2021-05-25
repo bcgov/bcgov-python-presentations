@@ -11,6 +11,8 @@ from dist import centroid, normalize, to_list
 truth = image('truth.bin')
 truth.segment([745, 838, 932])
 
+test = image('test.bin')
+test.segment()
 
 sys.exit(1)
 

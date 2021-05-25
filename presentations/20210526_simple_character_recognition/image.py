@@ -1,10 +1,11 @@
 '''read ENVI/raw binary format. Dimensions from header, data from .bin file'''
 import os
 import sys
+import pickle
 import numpy as np
 from flood import flood
-from dist import normalize, to_list, centroid
 import matplotlib.pyplot as plt
+from dist import normalize, to_list, centroid
 
 
 def read_hdr(hdr):  # read the image dimensions
@@ -159,6 +160,7 @@ class image:
 
                     fn = self.name + os.path.sep + ns + '.centroid'
                     if not os.path.exists(fn):
+                        print('  +w ' + fn)
                         xL, yL = to_list(point)
                         cX, cY = centroid(xL, yL)
                         open(fn, 'wb').write((str(cX) + ' ' +
@@ -170,6 +172,7 @@ class image:
                     # nb run cleanup.py before changing truth inputs
                     fn = self.name + os.path.sep + ns + '.p'
                     if not os.path.exists(fn):
+                        print('  +w ' + fn)
                         pickle.dump(point, open(fn, 'wb'))
                 except:
                     pass  # don't plot / save the background

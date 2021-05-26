@@ -14,7 +14,7 @@ Based on Earth-mover type distance.
 
 <img src="fig/table.png" width="444px">
 
-# How to run
+## how to run
 To generate the truth and test data:
 
 ```

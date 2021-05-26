@@ -44,7 +44,7 @@ def plot(dat, rows, cols, bands, file_name):  # plot "raw binary" image
     for i in range(bands):
         rgb[:, :, i] = dat[i, :].reshape((rows, cols))
     plt.imshow(rgb)
-    # plt.show()  # might uncomment this to zoom in to determine line numbers
+    plt.show()  # might uncomment this to zoom in to determine line numbers
     plt.savefig(file_name)
     plt.close()
 
@@ -58,6 +58,7 @@ class image:
     def load(self):
         self.cols, self.rows, self.bands = read_hdr(self.fn[:-4] + '.hdr')
         self.dat, self.npx = read_float(self.fn), self.rows * self.cols
+        plot(self.dat, self.rows, self.cols, self.bands, self.fn[:-4] + '.png')
 
     def png(self):
         if type(self.dat) == list:

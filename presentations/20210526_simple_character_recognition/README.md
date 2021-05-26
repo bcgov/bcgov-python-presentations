@@ -1,4 +1,7 @@
 # Simple character recognition
+## slides
+* [please click here for slides](https://github.com/bcgov/bcgov-python-presentations/blob/master/presentations/20210526_simple_character_recognition/slides/20210526_arithmancy.pdf)
+## details
 Based on Earth-mover type distance.
 
 1) Flood-fill segmentation

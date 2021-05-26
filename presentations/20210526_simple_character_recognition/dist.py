@@ -68,13 +68,24 @@ def dist_plot(X, Y, d, arrows, subdist, i, j):
         plt.savefig(str(i) + "_" + str(j) + ".png")
 
     plt.figure()
-    plt.scatter(y1, -np.array(x1), color='b') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
-    plt.scatter(y2, -np.array(x2), color='g')
+    plt.scatter(y1, -np.array(x1), color='b', label='X') # don't forget to change coordinate conventions.. math [x,y] is graphics [y, -x]
+    plt.scatter(y2, -np.array(x2), color='g', label='Y')
     # plt.scatter(ax, ay, color='r')
     plt.quiver(ay, -np.array(ax), av, -np.array(au), linewidths=10. * np.array(subdist), color='r', angles='xy', scale_units='xy', scale=1.) # -np.array( au), -np.array(av), color = 'r') # ay, -np.array(ax), av, np.array(au), color='r')
     # plt.show()
+    plt.legend()
     plt.savefig('dist_' + str(i) + "_" + str(j) + "_.png")
     plt.close()
 
 
-'''put in a command line plot here to calculate distances between things (put the diagrams on for this case.. but not the predict case'''
+if __name__ == '__main__':
+    a = [[0,1], [0,0]] # [x1, x2], [y1, y2]
+    b = [[0,1], [1,1]] # [x1, x2], [y1, y2]
+    d, arrows, subdist = dist(a, b)
+    dist_plot(a, b, d, arrows, subdist, 0, 1)
+
+
+
+
+
+

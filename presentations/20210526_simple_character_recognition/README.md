@@ -5,7 +5,7 @@ Based on Earth-mover type distance.
 * most-prevalent color assumed to be "background" to be ignored
 * characters to be classified are assumed to be of uniform color
 
-2) Wasserstein "earth-mover" type distance
+2) Wasserstein "earth-mover" (inspired) distance
 * simple nearest-centroid "supervised" classification, in the sense that the truth data are the "centroids" with respect to the "earth-mover" distance
 * some robustness to noise or transformation offered, relative to truth data
 

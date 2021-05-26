@@ -2,6 +2,7 @@
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
 
+* May 26, 2021 [Character Recognition](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20210526_simple_character_recognition)
 * April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/Jupyter%20Notebooks%20-%202021-04-28)
 * April 7, 2021 [Piloting Headless Browsers with Python](presentations/20210407_taylor_headless_browsers)
 * March 31, 2021 [Semi-supervised Classification of Images in Python](presentations/20210331_semi-supervised_classification_python/20210331_semisupervised_classification_in_python.pdf)

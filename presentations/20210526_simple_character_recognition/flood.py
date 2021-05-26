@@ -6,6 +6,7 @@ def flood(img, i, j, my_label=None, my_color=None):
 
     if img.labels[ix] > 0:
         return  # stop: already labelled
+
     c_s = str(img.rgb[ix])
     if c_s == img.max_color:
         return  # stop: ignore background "background subtraction"
@@ -22,3 +23,5 @@ def flood(img, i, j, my_label=None, my_color=None):
         for dj in [-1, 0, 1]:
             if not (di == 0 and dj == 0):
                 flood(img, i + di, j + dj, img.labels[ix], c_s)
+
+

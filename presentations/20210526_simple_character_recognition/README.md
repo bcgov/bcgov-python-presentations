@@ -41,7 +41,7 @@ python3 predict.py
 
 # References 
 Read these to figure out how to do a Wasserstein distance properly!
-* [Models for Particle Image Velocimetry: Optimal Transportation and Navier-Stokes Equations](https://dspace.library.uvic.ca/bitstream/handle/1828/7041/SaumierDemers_LouisPhilippe_PhD_2015.pdf) PhD Thesis, L-P Saumier (2016)
-* [An efficient numerical algorithm for the L2 optimal transport problem with applications to image processing](http://dspace.library.uvic.ca/bitstream/handle/1828/3157/LPSaumierMScThesis.pdf) M.Sc. Thesis, L-P Saumier (2010)
+* [Models for Particle Image Velocimetry: Optimal Transportation and Navier-Stokes Equations](https://dspace.library.uvic.ca/bitstream/handle/1828/7041/SaumierDemers_LouisPhilippe_PhD_2015.pdf) PhD Thesis, L.-P. Saumier Demers (2016)
+* [An efficient numerical algorithm for the L2 optimal transport problem with applications to image processing](http://dspace.library.uvic.ca/bitstream/handle/1828/3157/LPSaumierMScThesis.pdf) M.Sc. Thesis, L.-P. Saumier Demers (2010)
 
 

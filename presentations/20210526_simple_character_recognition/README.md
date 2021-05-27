@@ -34,3 +34,7 @@ python3 predict.py
 ```
 
 
+## potential improvements
+* Stopping after specified threshold (thanks Ken!)
+* incremental sampling approach to see how many points are required to be sampled before reaching a threshold
+* look at effects of distortions on characters! 

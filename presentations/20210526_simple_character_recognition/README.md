@@ -38,3 +38,10 @@ python3 predict.py
 * Stopping after specified threshold (thanks Ken!)
 * incremental sampling approach to see how many points are required to be sampled before reaching a threshold
 * look at effects of distortions on characters! 
+
+# References 
+Read these to figure out how to do a Wasserstein distance properly!
+* [Models for Particle Image Velocimetry: Optimal Transportation and Navier-Stokes Equations](https://dspace.library.uvic.ca/bitstream/handle/1828/7041/SaumierDemers_LouisPhilippe_PhD_2015.pdf)
+* [An efficient numerical algorithm for the L2 optimal transport problem with applications to image processing](http://dspace.library.uvic.ca/bitstream/handle/1828/3157/LPSaumierMScThesis.pdf)
+
+

@@ -6,7 +6,7 @@ Content from "lunch and learn" style presentations developed by the BC Governmen
 * April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/Jupyter%20Notebooks%20-%202021-04-28)
 * April 7, 2021 [Piloting Headless Browsers with Python](presentations/20210407_taylor_headless_browsers)
 * March 31, 2021 [Semi-supervised Classification of Images in Python](presentations/20210331_semi-supervised_classification_python/20210331_semisupervised_classification_in_python.pdf)
-* September 3, 2020: More Than a Word Cloud: Text Analysis in Python (Kevin Chang)
+* September 3, 2020: [More Than a Word Cloud: Text Analysis in Python](https://github.com/bcgov/bcgov-python-presentations/blob/master/presentations/20200930_kaiAnalytics_NLP_in_Python/BCPS%20-%20NLP%20in%20Python%20by%20Kevin%20at%20Kai%20Analytics.pdf)
 * April 1, 2020: Creating a Covid-19 web app using Herokuapp (Lindsay Forestell)
 * March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20200318_richardson_unsupervised_classification)
 

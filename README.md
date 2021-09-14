@@ -1,7 +1,7 @@
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
-* Sept 15, 2021 Detecting undetected covid19 cases
+* Sept 15, 2021 Detecting undetected covid19 cases (Yangming Li)
 * Sept 14, Wildfire Management (Ceres Imaging)
 * August 18, 2021 Predicting 30-day hospital readmission
 * June 23, 2021 Streamlit 

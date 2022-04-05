@@ -2,8 +2,9 @@
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
 * March 9, 2022 Object Detection in Computer Vision, Tanmana Sadhu
+* Oct 7, 2021 Easy data exploration with the elucidate R package, Craig Hutton
 * Sept 15, 2021 Detecting undetected covid19 cases, Yangming Li
-* Sept 14, Wildfire Management (Ceres Imaging), Corey Feduck
+* Sept 14, Airborne visible, NIR and thermal imaging for Wildfire mgmt (Ceres Imaging), Corey Feduck
 * Sept 8, 2021 Data Science in the Gym! Evan Harley
 * August 18, 2021 Predicting 30-day hospital readmission, Toni Mitovski
 * June 23, 2021 Streamlit, Andrea Williams 

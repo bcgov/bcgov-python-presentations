@@ -1,19 +1,19 @@
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
-
-* Sept 15, 2021 Detecting undetected covid19 cases (Yangming Li)
-* Sept 14, Wildfire Management (Ceres Imaging)
-* Sept 8, 2021 Data Science in the Gym!
-* August 18, 2021 Predicting 30-day hospital readmission
-* June 23, 2021 Streamlit 
-* May 26, 2021 [Character Recognition](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20210526_simple_character_recognition)
+* March 9, 2022 Object Detection in Computer Vision, Tanmana Sadhu
+* Sept 15, 2021 Detecting undetected covid19 cases, Yangming Li
+* Sept 14, Wildfire Management (Ceres Imaging), Corey Feduck
+* Sept 8, 2021 Data Science in the Gym! Evan Harley
+* August 18, 2021 Predicting 30-day hospital readmission, Toni Mitovski
+* June 23, 2021 Streamlit, Andrea Williams 
+* May 26, 2021 [Character Recognition](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20210526_simple_character_recognition) Ash Richardson
 * April 28, 2021 [Jupyter Notebooks](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/Jupyter%20Notebooks%20-%202021-04-28)
 * April 7, 2021 [Piloting Headless Browsers with Python](presentations/20210407_taylor_headless_browsers)
 * March 31, 2021 [Semi-supervised Classification of Images in Python](presentations/20210331_semi-supervised_classification_python/20210331_semisupervised_classification_in_python.pdf)
 * September 3, 2020: [More Than a Word Cloud: Text Analysis in Python](https://github.com/bcgov/bcgov-python-presentations/blob/master/presentations/20200930_kaiAnalytics_NLP_in_Python/BCPS%20-%20NLP%20in%20Python%20by%20Kevin%20at%20Kai%20Analytics.pdf)
-* April 1, 2020: Creating a Covid-19 web app using Herokuapp (Lindsay Forestell)
-* March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20200318_richardson_unsupervised_classification)
+* April 1, 2020: Creating a Covid-19 web app using Herokuapp, Lindsay Forestell
+* March 18, 2020 [Can the data speak? Reflections on Unsupervised Classification](https://github.com/bcgov/bcgov-python-presentations/tree/master/presentations/20200318_richardson_unsupervised_classification), Ash Richardson
 
 ## Project Status
 Underway and always open to improvements and contributions!

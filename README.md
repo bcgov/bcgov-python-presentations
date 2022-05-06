@@ -1,6 +1,7 @@
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)
 # bcgov-python-presentations
 Content from "lunch and learn" style presentations developed by the BC Government Python Programming Community, in partnership with the BC Government Data Science Community of Practice (CoP)
+* Apr 25, 2022 Socioeconomic, Health, and Academic Predictors of High School Graduation in Vancouver 2000-09, Craig Hutton
 * March 9, 2022 Object Detection in Computer Vision, Tanmana Sadhu
 * Feb 9, 2022 Corey Froese (BGC Engineering) and Andrew Pylypchuk (Capella Space and TerraMetric)
 * Oct 7, 2021 Easy data exploration with the elucidate R package, Craig Hutton
